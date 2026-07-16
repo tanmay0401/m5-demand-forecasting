@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0] — 2026-07-16 — Phase 4
+### Added
+- Architecture & planning doc (`docs/phases/PHASE_04_project_planning.md`).
+- Package skeleton `src/m5forecast/` (data, features, models{deepar,tft}, hierarchy, evaluation, analysis, utils).
+- Hydra config tree (`configs/`), `requirements.txt`, `.gitignore`.
+### Changed
+- README: layout section + setup instructions; TODO decisions resolved (MLflow, Hydra, Parquet, PyTorch).
+
 ## [0.3.0] — 2026-07-16 — Phase 3
 ### Added
 - Phase 3 literature review (`docs/phases/PHASE_03_literature_review.md`): M-competition history, M5 competition & winning solutions, DeepAR & TFT paper summaries, gradient-boosting papers, hierarchical reconciliation literature, foundation-model frontier, interview Q&A, references.

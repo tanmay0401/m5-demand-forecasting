@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-16 — Phase 4 complete: Planning, architecture, scaffold
+
+- Wrote [docs/phases/PHASE_04_project_planning.md](docs/phases/PHASE_04_project_planning.md): dataflow architecture (7 stages connected by Parquet artifacts), module rationale, dependency graph, risk register.
+- Scaffolded the repo: `src/m5forecast` layered package, Hydra config tree (`configs/`), `requirements.txt`, `.gitignore` (data/outputs excluded with .gitkeep placeholders — learned the gitignore negation subtlety: ignore dir *contents*, not the dir, or `!.gitkeep` is dead).
+- Tooling locked: **Hydra** configs, **MLflow** local tracking, **Parquet** interchange, **PyTorch from scratch** for DeepAR/TFT (learning goal — GluonTS/pytorch-forecasting would be the production shortcut).
+- Key invariants declared in configs already: horizon=28, all feature shifts ≥ 28, expanding backtest with 3 folds ending at d_1913, seed=42.
+
 ## 2026-07-16 — Phase 3 complete: Literature Review
 
 - Wrote [docs/phases/PHASE_03_literature_review.md](docs/phases/PHASE_03_literature_review.md) (M-competitions, M5 results & winners, DeepAR, TFT, LightGBM/XGBoost, hierarchical reconciliation, foundation models).
