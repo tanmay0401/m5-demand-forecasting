@@ -2,6 +2,17 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-16 — Phase 3 complete: Literature Review
+
+- Wrote [docs/phases/PHASE_03_literature_review.md](docs/phases/PHASE_03_literature_review.md) (M-competitions, M5 results & winners, DeepAR, TFT, LightGBM/XGBoost, hierarchical reconciliation, foundation models).
+- Design decisions borrowed from the literature and locked in:
+  - **Tweedie objective** for LightGBM (M5 accuracy winner's choice — matches intermittent counts).
+  - **Negative Binomial likelihood** for DeepAR (paper's recommendation for retail counts).
+  - **Quantile (pinball) loss + direct multi-horizon output** for the TFT-style model.
+  - **Residual-scaling quantiles from point forecasts** as the probabilistic baseline (top M5-uncertainty pattern).
+  - **Reconciliation: implement BU, TD, and MinT-shrinkage**, measure WRMSSE delta (goes beyond what Kaggle winners did).
+  - Verified competition facts against the official IJF results papers before writing.
+
 ## 2026-07-16 — Phase 2 complete: Time Series Fundamentals
 
 - Wrote Phase 2 teaching doc: [docs/phases/PHASE_02_time_series_fundamentals.md](docs/phases/PHASE_02_time_series_fundamentals.md).

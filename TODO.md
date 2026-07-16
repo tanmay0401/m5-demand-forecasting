@@ -1,10 +1,9 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 3 — Literature review**: M5 competition & winning solutions, DeepAR paper, TFT paper, LightGBM forecasting, hierarchical forecasting literature.
+- [ ] **Phase 4 — Project planning**: architecture diagram, folder structure, data/feature/training/evaluation/reconciliation pipelines, module dependency graph, tooling decisions (experiment tracking, configs).
 
-## Backlog (phases 4–18)
-- [ ] Phase 4 — Architecture, folder structure, pipeline & module dependency design
+## Backlog (phases 5–18)
 - [ ] Phase 5 — Download M5 data; dataset walkthrough; preprocessing pipeline
 - [ ] Phase 6 — EDA (trends, weekly/monthly seasonality, holidays, SNAP, promos, store differences)
 - [ ] Phase 7 — Feature engineering (lags, rolling stats, calendar, price/promo, elasticity, encodings)

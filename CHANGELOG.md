@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.0] — 2026-07-16 — Phase 3
+### Added
+- Phase 3 literature review (`docs/phases/PHASE_03_literature_review.md`): M-competition history, M5 competition & winning solutions, DeepAR & TFT paper summaries, gradient-boosting papers, hierarchical reconciliation literature, foundation-model frontier, interview Q&A, references.
+
 ## [0.2.0] — 2026-07-16 — Phase 2
 ### Added
 - Phase 2 teaching document (`docs/phases/PHASE_02_time_series_fundamentals.md`): stationarity, differencing, lag features, rolling statistics, exponential smoothing, forecast horizons & multi-step strategies, backtesting (expanding vs sliding windows), leakage rules, feature-engineering map, interview Q&A.
