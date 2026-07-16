@@ -1,0 +1,45 @@
+# Demand Forecasting Under Promotions and Events
+
+Hierarchical time series forecasting at retail scale, built on the **M5 Forecasting Dataset** (Walmart): **30,490 SKU-store daily series over 1,941 days** (2011–2016).
+
+## What this project does
+
+- Builds a full hierarchical demand-forecasting pipeline on M5
+- Compares **3 model families**: Gradient Boosting (LightGBM/XGBoost), **DeepAR-style** probabilistic RNNs, and **Temporal Transformers** (TFT-style) — with emphasis on promotion- and event-driven demand spikes
+- Implements **hierarchical forecast reconciliation** producing coherent forecasts across the **12 M5 aggregation levels** (total → state → store → category → department → item → item-store)
+- Evaluates with **WRMSSE** and **quantile (pinball) loss**, optimizing probabilistic forecasts for daily inventory decisions
+
+## Status
+
+🚧 In development — phase by phase. See [TODO.md](TODO.md) for the roadmap and [PROJECT_LOG.md](PROJECT_LOG.md) for the running log.
+
+| Phase | Topic | Status |
+|---|---|---|
+| 1 | Understanding Demand Forecasting (theory) | ✅ [docs/phases/PHASE_01_demand_forecasting.md](docs/phases/PHASE_01_demand_forecasting.md) |
+| 2 | Time Series Fundamentals | ⏳ |
+| 3 | Literature Review | ⏳ |
+| 4 | Project Planning & Architecture | ⏳ |
+| 5 | M5 Dataset & Preprocessing | ⏳ |
+| 6 | EDA | ⏳ |
+| 7 | Feature Engineering | ⏳ |
+| 8 | Baselines | ⏳ |
+| 9 | Gradient Boosting | ⏳ |
+| 10 | DeepAR-style Model | ⏳ |
+| 11 | Temporal Transformer | ⏳ |
+| 12 | Hierarchical Reconciliation | ⏳ |
+| 13 | Evaluation (WRMSSE, Quantile Loss) | ⏳ |
+| 14 | Promotions & Events Analysis | ⏳ |
+| 15 | Error Analysis | ⏳ |
+| 16 | Research Analysis | ⏳ |
+| 17–18 | Engineering Standards & Documentation | continuous |
+
+## Repository layout (will grow with the project)
+
+```
+docs/
+  phases/          # per-phase teaching + design documents
+README.md          # this file
+PROJECT_LOG.md     # running engineering log
+TODO.md            # roadmap & open items
+CHANGELOG.md       # per-phase change history
+```
