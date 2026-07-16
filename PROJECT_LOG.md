@@ -10,7 +10,8 @@ Running engineering/learning log. Newest entries at the top.
   - **Feature discipline: shift → roll → aggregate**, with shift ≥ horizon for direct models. This is our #1 leakage guard.
   - **Multi-step strategy per model**: LightGBM = direct (horizon-safe lags), DeepAR = recursive by sampling, TFT = multi-output.
   - **Validation**: expanding-window backtest, ~3 folds of 28-day test blocks, aligned to M5's d_1914–1941 validation / d_1942–1969 evaluation split. Final evaluation block touched exactly once.
-- Repo housekeeping: user wants granular commits (contribution graph) — committing per artifact from now on. Remote/push still pending user's go-ahead.
+- Repo housekeeping: user wants granular commits (contribution graph) — committing per artifact from now on.
+- Published to GitHub: https://github.com/tanmay0401/m5-demand-forecasting (public). Every commit is pushed immediately.
 
 ## 2026-07-16 — Phase 1 complete: Understanding Demand Forecasting
 
