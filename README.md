@@ -16,7 +16,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | Phase | Topic | Status |
 |---|---|---|
 | 1 | Understanding Demand Forecasting (theory) | ✅ [docs/phases/PHASE_01_demand_forecasting.md](docs/phases/PHASE_01_demand_forecasting.md) |
-| 2 | Time Series Fundamentals | ⏳ |
+| 2 | Time Series Fundamentals | ✅ [docs/phases/PHASE_02_time_series_fundamentals.md](docs/phases/PHASE_02_time_series_fundamentals.md) |
 | 3 | Literature Review | ⏳ |
 | 4 | Project Planning & Architecture | ⏳ |
 | 5 | M5 Dataset & Preprocessing | ⏳ |

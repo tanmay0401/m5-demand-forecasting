@@ -1,10 +1,9 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 2 — Time Series Fundamentals**: stationarity, differencing, lag features, rolling windows, moving averages, exponential smoothing, forecast horizon, backtesting, sliding vs expanding window validation, feature engineering intro.
+- [ ] **Phase 3 — Literature review**: M5 competition & winning solutions, DeepAR paper, TFT paper, LightGBM forecasting, hierarchical forecasting literature.
 
-## Backlog (phases 3–18)
-- [ ] Phase 3 — Literature review (M5 competition, DeepAR, TFT, LightGBM winners, hierarchical forecasting)
+## Backlog (phases 4–18)
 - [ ] Phase 4 — Architecture, folder structure, pipeline & module dependency design
 - [ ] Phase 5 — Download M5 data; dataset walkthrough; preprocessing pipeline
 - [ ] Phase 6 — EDA (trends, weekly/monthly seasonality, holidays, SNAP, promos, store differences)
