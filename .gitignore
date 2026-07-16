@@ -1,0 +1,31 @@
+# Data & run artifacts — never in git (keep .gitkeep placeholders)
+# Note: ignore *contents* of each dir, not the dir itself, so !.gitkeep works.
+data/raw/*
+data/interim/*
+data/processed/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+outputs/*
+!outputs/.gitkeep
+mlruns/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Notebooks & IDE
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Hydra default output dir (we redirect, but belt-and-braces)
+multirun/
+.hydra/
+
+# OS
+Thumbs.db
+.DS_Store

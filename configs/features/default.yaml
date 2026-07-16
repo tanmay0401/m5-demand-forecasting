@@ -1,0 +1,22 @@
+# Feature recipe. ALL lags/shifts are >= horizon for the direct model (leakage rule).
+target: sales
+lags: [28, 35, 42, 49, 56, 364]
+rolling:
+  shift: 28                  # shift FIRST, then roll (Phase 2 discipline)
+  windows: [7, 28, 90]
+  stats: [mean, std, median, zero_frac]
+ewm:
+  alphas: [0.1]
+calendar:
+  - day_of_week
+  - month
+  - snap
+  - event_name
+  - event_type
+  - days_to_event
+price:
+  - sell_price
+  - price_change_pct
+  - price_rel_item_avg       # promotion inference
+  - price_rel_category
+categoricals: [item_id, dept_id, cat_id, store_id, state_id]

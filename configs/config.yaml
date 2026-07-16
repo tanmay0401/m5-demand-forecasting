@@ -1,0 +1,20 @@
+# Top-level Hydra config: composes one option from each group below.
+# Override on the CLI, e.g.:  python scripts/train.py model=deepar training.folds=1
+defaults:
+  - data: m5
+  - features: default
+  - model: lightgbm
+  - training: default
+  - evaluation: default
+  - _self_
+
+seed: 42
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  outputs: outputs
+  figures: reports/figures
+mlflow:
+  tracking_uri: outputs/mlruns
+  experiment: m5-demand-forecasting

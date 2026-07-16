@@ -1,0 +1,11 @@
+name: lightgbm
+objective: tweedie           # M5 winner's choice; mass at zero for intermittent counts
+tweedie_variance_power: 1.1
+num_leaves: 128
+learning_rate: 0.05
+n_estimators: 1500
+early_stopping_rounds: 100
+feature_fraction: 0.8
+bagging_fraction: 0.8
+bagging_freq: 1
+quantiles: [0.05, 0.165, 0.25, 0.5, 0.75, 0.835, 0.95]   # one quantile-objective model each

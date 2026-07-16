@@ -1,0 +1,6 @@
+horizon: 28
+backtest:
+  scheme: expanding
+  n_folds: 3                 # 28-day test blocks ending at d_1913, aligned to M5 split
+device: auto                 # cuda if available else cpu
+num_workers: 2

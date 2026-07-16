@@ -1,0 +1,12 @@
+name: deepar
+likelihood: negative_binomial   # counts with overdispersion (paper's retail choice)
+context_length: 84              # encoder window (3x horizon)
+hidden_size: 64
+num_layers: 2
+dropout: 0.1
+embedding_dim: 16               # per categorical id
+num_samples: 200                # ancestral sampling paths at prediction
+epochs: 20
+batch_size: 256
+lr: 1e-3
+windows_per_series_per_epoch: 2 # paper-style window sampling

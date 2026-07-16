@@ -1,0 +1,10 @@
+# M5 source files and canonical dataset facts (validated in data/validate.py)
+files:
+  sales: sales_train_evaluation.csv   # 30,490 rows x (6 id cols + 1,941 day cols)
+  calendar: calendar.csv
+  prices: sell_prices.csv
+n_series: 30490
+n_days: 1941
+first_date: "2011-01-29"
+horizon: 28
+train_end_day: 1913          # d_1914-1941 validation, d_1942-1969 evaluation (final, touched once)

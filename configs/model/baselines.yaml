@@ -1,0 +1,2 @@
+name: baselines
+members: [naive, seasonal_naive_7, moving_average_28, exp_smoothing]
