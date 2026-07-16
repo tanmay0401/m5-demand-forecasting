@@ -1,9 +1,10 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 5 — Dataset**: download M5 via Kaggle API, teach the three files and their joins, build data pipeline (loading, long-format melt, calendar/price joins, dtypes, validation), first unit tests.
+- [ ] **USER ACTION — Kaggle credentials**: create API token (kaggle.com → Settings → API → Create New Token), save to `%USERPROFILE%\.kaggle\kaggle.json`, accept the [competition rules](https://www.kaggle.com/competitions/m5-forecasting-accuracy/rules) once. Then run `python scripts/download_data.py && python scripts/build_panel.py`.
+- [ ] **Phase 6 — EDA**: run pipeline on real data first; trends, weekly/monthly seasonality, holiday & SNAP effects, price/promo effects, intermittency, store differences.
 
-## Backlog (phases 6–18)
+## Backlog (phases 7–18)
 - [ ] Phase 6 — EDA (trends, weekly/monthly seasonality, holidays, SNAP, promos, store differences)
 - [ ] Phase 7 — Feature engineering (lags, rolling stats, calendar, price/promo, elasticity, encodings)
 - [ ] Phase 8 — Baselines (naive, seasonal naive, moving average, linear regression)

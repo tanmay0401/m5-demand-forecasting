@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0] — 2026-07-16 — Phase 5
+### Added
+- Data pipeline (`src/m5forecast/data/`): typed loaders, wide→long melt, calendar/price joins, SNAP resolution, structural validation.
+- Utils layer (`src/m5forecast/utils/`): seeding, logging, parquet IO.
+- Entry points: `scripts/download_data.py`, `scripts/build_panel.py`.
+- Test suite: 10 data-pipeline tests on synthetic mini-M5 fixtures.
+- `pyproject.toml` (editable src-layout install), Phase 5 dataset doc.
+
 ## [0.4.0] — 2026-07-16 — Phase 4
 ### Added
 - Architecture & planning doc (`docs/phases/PHASE_04_project_planning.md`).

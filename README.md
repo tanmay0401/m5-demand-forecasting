@@ -19,7 +19,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 2 | Time Series Fundamentals | ✅ [docs/phases/PHASE_02_time_series_fundamentals.md](docs/phases/PHASE_02_time_series_fundamentals.md) |
 | 3 | Literature Review | ✅ [docs/phases/PHASE_03_literature_review.md](docs/phases/PHASE_03_literature_review.md) |
 | 4 | Project Planning & Architecture | ✅ [docs/phases/PHASE_04_project_planning.md](docs/phases/PHASE_04_project_planning.md) |
-| 5 | M5 Dataset & Preprocessing | ⏳ |
+| 5 | M5 Dataset & Preprocessing | ✅ [docs/phases/PHASE_05_dataset.md](docs/phases/PHASE_05_dataset.md) |
 | 6 | EDA | ⏳ |
 | 7 | Feature Engineering | ⏳ |
 | 8 | Baselines | ⏳ |
@@ -55,4 +55,11 @@ Architecture, module rationale, and dependency graph: [Phase 4 doc](docs/phases/
 python -m venv .venv
 .venv\Scripts\activate        # Windows
 pip install -r requirements.txt
+pip install -e .              # install m5forecast in editable mode
+
+# data (one-time Kaggle API setup — see scripts/download_data.py docstring)
+python scripts/download_data.py
+python scripts/build_panel.py # raw CSVs -> data/interim/panel.parquet
+
+pytest                        # run the test suite
 ```

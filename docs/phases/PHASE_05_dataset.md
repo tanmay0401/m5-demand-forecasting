@@ -92,7 +92,7 @@ Output contract: `data/interim/panel.parquet`, sorted by (id, d) — the **only*
 # accept rules once: kaggle.com/competitions/m5-forecasting-accuracy/rules
 python scripts/download_data.py
 python scripts/build_panel.py
-pytest                       # 11 pipeline tests on synthetic mini-M5 fixtures
+pytest                       # 10 pipeline tests on synthetic mini-M5 fixtures
 ```
 
 ## 5. Interview questions — Phase 5

@@ -2,6 +2,19 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-16 — Phase 5: dataset teaching + data pipeline code
+
+- Wrote [docs/phases/PHASE_05_dataset.md](docs/phases/PHASE_05_dataset.md) (the three files, join graph, SNAP, pipeline contract).
+- First real code shipped:
+  - `utils/` (seed, logging, parquet IO), `pyproject.toml` (editable install, src layout).
+  - `data/loading.py` — dtype-disciplined readers (int16 day columns, category ids): ~2GB panel instead of ~15GB naive.
+  - `data/preprocess.py` — melt (day columns renamed to ints *before* melting to avoid 59M throwaway strings), calendar join + per-state SNAP resolution, weekly price join with categorical keys aligned for the fast merge path.
+  - `data/validate.py` — DataValidationError on: wrong row count, null/negative sales, broken time index, sold-without-price.
+  - `scripts/download_data.py` (Kaggle CLI), `scripts/build_panel.py` (Hydra entry).
+  - `tests/test_data_pipeline.py` — 10 tests on a synthetic 2-series × 10-day mini-M5 (snap resolution, price NaN before launch, all validation failure modes). All pass on Python 3.14.
+- Environment: Python 3.14 venv; core deps installed (torch deferred to Phase 10).
+- **Blocked on user action:** Kaggle API token needed to download the real data (instructions in TODO.md). Pipeline run on real data + EDA happen next session.
+
 ## 2026-07-16 — Phase 4 complete: Planning, architecture, scaffold
 
 - Wrote [docs/phases/PHASE_04_project_planning.md](docs/phases/PHASE_04_project_planning.md): dataflow architecture (7 stages connected by Parquet artifacts), module rationale, dependency graph, risk register.
