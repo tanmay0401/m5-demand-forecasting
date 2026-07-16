@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "m5forecast"
+version = "0.1.0"
+description = "Hierarchical demand forecasting on the M5 dataset: gradient boosting vs DeepAR-style vs temporal transformers, with 12-level forecast reconciliation"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
