@@ -188,11 +188,28 @@ def fig_store_category(panel: pd.DataFrame, out_dir: Path) -> Path:
 
 def fig_promo_example(panel: pd.DataFrame, out_dir: Path) -> tuple[Path, str]:
     """One item where price drops visibly move demand — two stacked panels, shared x (never a dual axis)."""
-    stats = panel.groupby("id", observed=True).agg(
-        mean_sales=("sales", "mean"), p_std=("sell_price", "std"), p_mean=("sell_price", "mean")
-    )
-    stats["p_cv"] = stats["p_std"] / stats["p_mean"]
-    pick = stats[stats["mean_sales"] >= 2.0]["p_cv"].idxmax()
+    # Select by the phenomenon itself: flag "promo" days as price < 85% of the
+    # item's median price, then pick the series with the largest sales lift on
+    # promo days. Floors: a real seller (>=2/day), a real price (>= $3), and
+    # enough promo days (30..400) for the lift to be an average, not a fluke.
+    # (Naive picks fail here: max price-CV finds one-off price artifacts on
+    # cheap items, not recurring promotions.)
+    offered = panel[panel["sell_price"].notna()][["id", "sales", "sell_price"]]
+    med = offered.groupby("id", observed=True)["sell_price"].transform("median")
+    offered = offered.assign(promo=offered["sell_price"] < 0.85 * med)
+    g = offered.groupby(["id", "promo"], observed=True)["sales"].agg(["mean", "size"]).unstack()
+    cand = pd.DataFrame(
+        {
+            "base": g[("mean", False)],
+            "promo": g[("mean", True)],
+            "promo_days": g[("size", True)],
+        }
+    ).dropna()
+    cand["lift"] = cand["promo"] / cand["base"]
+    cand = cand[(cand["base"] >= 2.0) & (cand["promo_days"].between(30, 400))]
+    med_price = offered.groupby("id", observed=True)["sell_price"].median()
+    cand = cand[med_price.reindex(cand.index) >= 3.0]
+    pick = cand["lift"].idxmax()
     s = panel[panel["id"] == pick].sort_values("date")
 
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 4.2), sharex=True, height_ratios=[2, 1])
