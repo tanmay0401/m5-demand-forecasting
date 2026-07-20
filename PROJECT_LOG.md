@@ -2,6 +2,17 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-21 — Phase 7: feature engineering
+
+- Shipped four feature families ([doc](docs/phases/PHASE_07_feature_engineering.md)):
+  - Target-derived (all shift ≥ 28, enforced with ValueError): lags {28,35,42,49,56,364}, rolling mean/std/median/zero_frac over {7,28,90}, EWM(α=0.1), expanding `hist_mean` (leakage-safe target encoding), `momentum_7_28`.
+  - Calendar (no shift — known future): date parts, `is_christmas`, `days_to/since_event` (±30 cap; EDA: events have shapes).
+  - Price/promo (no shift — exogenous, but trailing-window stats only): `price_chg_7`, `price_rel_med` (trailing 52-week median), `is_promo` (<0.85), `price_rel_dept`. Elasticity deliberately left to the model; measured in Phase 14 instead.
+  - Identity categoricals kept raw for LightGBM/native embeddings.
+- **Leakage test**: corrupt sales inside (t−28, t] with +1000 → assert features at t bit-identical. Plus API-refusal test for lags < horizon.
+- **Real-data bug caught after synthetic tests passed**: `.replace(0, pd.NA)` in momentum → object dtype → astype crash, because real rolling means ARE zero (73%-zeros median series) while the Poisson(3) fixture's never were. Fix: `.where(denom > 0)`. Fixture now includes a 90%-zeros series. *Lesson: synthetic fixtures must mirror the data's pathologies, not its happy path.*
+- Build streams per-store (~5.9M rows/chunk) → `data/processed/features/store=XX.parquet` (Phase 4 risk-register mitigation, exercised). 23 tests green.
+
 ## 2026-07-21 — Real data in; Phase 6 EDA complete
 
 - **Data acquisition saga** (worth remembering): Kaggle API token never existed; browser downloads failed silently because the account (a) wasn't signed in on the automated Chrome profile and (b) had never done **phone verification**, which Kaggle silently requires before joining any competition. Resolution: user verified phone → joined competition (rules accepted with user's explicit OK) → browser download → extracted CSVs moved to `data/raw/`.

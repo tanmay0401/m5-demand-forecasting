@@ -21,7 +21,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 4 | Project Planning & Architecture | ✅ [docs/phases/PHASE_04_project_planning.md](docs/phases/PHASE_04_project_planning.md) |
 | 5 | M5 Dataset & Preprocessing | ✅ [docs/phases/PHASE_05_dataset.md](docs/phases/PHASE_05_dataset.md) |
 | 6 | EDA | ✅ [docs/phases/PHASE_06_eda.md](docs/phases/PHASE_06_eda.md) |
-| 7 | Feature Engineering | ⏳ |
+| 7 | Feature Engineering | ✅ [docs/phases/PHASE_07_feature_engineering.md](docs/phases/PHASE_07_feature_engineering.md) |
 | 8 | Baselines | ⏳ |
 | 9 | Gradient Boosting | ⏳ |
 | 10 | DeepAR-style Model | ⏳ |

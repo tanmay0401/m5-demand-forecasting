@@ -1,10 +1,9 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 7 — Feature engineering**: lags (≥28 only), rolling stats (shift→roll discipline), EWM, calendar features (`days_to_event` — EDA showed events have *shapes*), price/promo features (85%-of-median promo rule validated in EDA), categorical encodings; leakage unit tests.
+- [ ] **Phase 8 — Baselines**: naive, seasonal-naive(7), moving average, exponential smoothing (+ linear regression on the feature table); shared model interface (`models/base.py`); backtest fold generator (`evaluation/backtest.py`); first end-to-end evaluation loop with simple metrics (WRMSSE arrives in Phase 13, MAE/RMSE now).
 
-## Backlog (phases 8–18)
-- [ ] Phase 8 — Baselines (naive, seasonal naive, moving average, exponential smoothing, linear regression)
+## Backlog (phases 9–18)
 - [ ] Phase 9 — Gradient boosting pipeline (LightGBM primary, XGBoost comparison)
 - [ ] Phase 10 — DeepAR-style probabilistic model (PyTorch, Negative Binomial likelihood; install torch)
 - [ ] Phase 11 — Temporal transformer (TFT-style)

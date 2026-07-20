@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.0] — 2026-07-21 — Phase 7
+### Added
+- Feature engineering package (`features/`): lags, rolling stats, EWM, expanding mean, momentum, calendar + event distances, price/promo family; per-store streaming build to partitioned parquet.
+- `scripts/build_features.py`; 9 feature tests including the future-perturbation leakage test.
+- Phase 7 teaching doc.
+### Fixed
+- Momentum dtype crash on zero-heavy real series (`.replace(0, pd.NA)` → `.where`); test fixture now intermittent.
+
 ## [0.6.0] — 2026-07-21 — Phase 6
 ### Added
 - EDA module (`analysis/eda.py`) + `scripts/run_eda.py`: 8 figures + headline stats JSON.
