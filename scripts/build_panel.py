@@ -7,22 +7,19 @@ Run from the repo root:
 
 from __future__ import annotations
 
-from pathlib import Path
-
-import hydra
-from omegaconf import DictConfig
+import sys
 
 from m5forecast.data.preprocess import build_panel
+from m5forecast.utils.config import REPO_ROOT, load_config
 from m5forecast.utils.seed import set_seed
 
 
-@hydra.main(config_path="../configs", config_name="config", version_base="1.3")
-def main(cfg: DictConfig) -> None:
+def main(overrides: list[str]) -> None:
+    cfg = load_config(overrides)
     set_seed(cfg.seed)
-    repo_root = Path(__file__).resolve().parents[1]
     build_panel(
-        raw_dir=repo_root / cfg.paths.raw,
-        out_path=repo_root / cfg.paths.interim / "panel.parquet",
+        raw_dir=REPO_ROOT / cfg.paths.raw,
+        out_path=REPO_ROOT / cfg.paths.interim / "panel.parquet",
         sales_file=cfg.data.files.sales,
         n_series=cfg.data.n_series,
         n_days=cfg.data.n_days,
@@ -30,4 +27,4 @@ def main(cfg: DictConfig) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
