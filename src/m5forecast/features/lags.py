@@ -85,5 +85,8 @@ def add_momentum(df: pd.DataFrame) -> pd.DataFrame:
     > 1 means demand is accelerating; < 1 decaying. Requires r_mean_7 and
     r_mean_28 to exist (build order enforces this).
     """
-    df["momentum_7_28"] = (df["r_mean_7"] / df["r_mean_28"].replace(0.0, pd.NA)).astype("float32")
+    # .where keeps float dtype (NaN), unlike .replace(0, pd.NA) which turns
+    # the column into object dtype and breaks astype on real zero-heavy data
+    denom = df["r_mean_28"].where(df["r_mean_28"] > 0)
+    df["momentum_7_28"] = (df["r_mean_7"] / denom).astype("float32")
     return df

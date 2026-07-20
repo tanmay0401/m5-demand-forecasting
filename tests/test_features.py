@@ -28,6 +28,9 @@ N = 140  # days per series
 def make_panel(seed: int = 0) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
     frames = []
+    # ITEM_0: dense seller; ITEM_1 gets overwritten below into a 90%-zeros
+    # series so fixtures mirror real M5 intermittency (median series = 73%
+    # zeros) — a Poisson(3)-only fixture let a dtype bug through to real data
     for sid, (store, dept) in enumerate([("CA_1", "FOODS_1"), ("CA_1", "HOBBIES_1")]):
         d = np.arange(1, N + 1, dtype="int16")
         dates = pd.date_range("2011-01-29", periods=N)
@@ -47,6 +50,9 @@ def make_panel(seed: int = 0) -> pd.DataFrame:
             )
         )
     df = pd.concat(frames, ignore_index=True)
+    # make ITEM_1 intermittent: ~90% zeros, so rolling means hit exact 0
+    sparse = df["id"] == "ITEM_1"
+    df.loc[sparse, "sales"] = (rng.random(sparse.sum()) < 0.1).astype("int16")
     df["id"] = df["id"].astype("category")
     return df.sort_values(["id", "d"], ignore_index=True)
 
