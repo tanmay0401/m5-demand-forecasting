@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.0] — 2026-07-21 — Phase 8
+### Added
+- Shared model interface (`models/base.py`); five baselines (`models/baselines.py`).
+- Backtest folds (`evaluation/backtest.py`), point metrics (`evaluation/metrics.py`).
+- `scripts/train.py` fold loop with MLflow (sqlite) logging and forecast persistence.
+- 8 tests (31 total); Phase 8 doc.
+### Changed
+- MLflow backend: sqlite (`outputs/mlflow.db`) — 3.x deprecated the file store.
+
 ## [0.7.0] — 2026-07-21 — Phase 7
 ### Added
 - Feature engineering package (`features/`): lags, rolling stats, EWM, expanding mean, momentum, calendar + event distances, price/promo family; per-store streaming build to partitioned parquet.

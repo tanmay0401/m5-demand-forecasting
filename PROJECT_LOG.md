@@ -2,6 +2,16 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-21 — Phase 8: baselines + evaluation harness
+
+- Shipped the evaluation backbone ([doc](docs/phases/PHASE_08_baselines.md)):
+  - `models/base.py` — fit/predict/predict_quantiles contract; fold loop only ever calls the interface → fair comparisons by construction.
+  - `evaluation/backtest.py` — expanding folds (test blocks d1830–1857, 1858–1885, 1886–1913); **d1914–1941 reserved for exactly one final touch**.
+  - `evaluation/metrics.py` — MAE/RMSE/WAPE/bias; MAPE banned (68% zeros).
+  - Five baselines, all vectorized: naive, seasonal-naive(7), MA(28), SES(α=0.2), linear regression on the Phase 7 features (the "bridge baseline" isolating non-linearity's value for Phase 9).
+- Windows/tooling papercuts fixed & documented: MLflow rejects bare `D:\` paths as URIs; MLflow 3.x deprecated the ./mlruns file store → **sqlite backend** (`outputs/mlflow.db`).
+- 31 tests green.
+
 ## 2026-07-21 — Phase 7: feature engineering
 
 - Shipped four feature families ([doc](docs/phases/PHASE_07_feature_engineering.md)):

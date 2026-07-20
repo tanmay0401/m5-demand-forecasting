@@ -44,7 +44,10 @@ def main(overrides: list[str]) -> None:
 
     import mlflow
 
-    mlflow.set_tracking_uri(str(REPO_ROOT / cfg.mlflow.tracking_uri))
+    # sqlite backend: mlflow 3.x deprecated the ./mlruns file store; forward
+    # slashes required in the sqlite URI even on Windows
+    db = (REPO_ROOT / cfg.mlflow.db_path).as_posix()
+    mlflow.set_tracking_uri(f"sqlite:///{db}")
     mlflow.set_experiment(cfg.mlflow.experiment)
 
     panel = pd.read_parquet(REPO_ROOT / cfg.paths.interim / "panel.parquet", columns=["id", "d", "sales"])

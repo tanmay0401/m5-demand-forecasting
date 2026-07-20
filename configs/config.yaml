@@ -16,5 +16,5 @@ paths:
   outputs: outputs
   figures: reports/figures
 mlflow:
-  tracking_uri: outputs/mlruns
+  db_path: outputs/mlflow.db   # sqlite backend (mlflow 3.x deprecated the file store)
   experiment: m5-demand-forecasting

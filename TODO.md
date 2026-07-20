@@ -1,9 +1,9 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 8 — Baselines**: naive, seasonal-naive(7), moving average, exponential smoothing (+ linear regression on the feature table); shared model interface (`models/base.py`); backtest fold generator (`evaluation/backtest.py`); first end-to-end evaluation loop with simple metrics (WRMSSE arrives in Phase 13, MAE/RMSE now).
+- [ ] **Phase 9 — Gradient boosting**: LightGBM with Tweedie loss on the 51-column feature table; categorical handling; early stopping on fold 3; feature importance analysis (check the Phase 7 §5 Q10 prediction); per-quantile LightGBM models for probabilistic forecasts; XGBoost comparison run.
 
-## Backlog (phases 9–18)
+## Backlog (phases 10–18)
 - [ ] Phase 9 — Gradient boosting pipeline (LightGBM primary, XGBoost comparison)
 - [ ] Phase 10 — DeepAR-style probabilistic model (PyTorch, Negative Binomial likelihood; install torch)
 - [ ] Phase 11 — Temporal transformer (TFT-style)
