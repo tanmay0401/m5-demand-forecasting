@@ -1,7 +1,10 @@
 name: lightgbm
 objective: tweedie           # M5 winner's choice; mass at zero for intermittent counts
 tweedie_variance_power: 1.1
+metric: rmse                 # early-stop signal: tweedie NLL proved noisy (stopped ~70 trees, underfit)
 num_leaves: 128
+min_data_in_leaf: 200        # smoother leaves on 73%-zeros data
+lambda_l2: 0.0
 learning_rate: 0.05
 n_estimators: 1500
 early_stopping_rounds: 100

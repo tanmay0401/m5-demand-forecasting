@@ -66,8 +66,13 @@ class LightGBMForecaster(ForecastModel):
         params = {
             "objective": "tweedie",
             "tweedie_variance_power": float(self.p.tweedie_variance_power),
-            "metric": "tweedie",
+            # early-stop metric is configurable: tweedie NLL proved a noisy
+            # stopping signal (runs halted at ~70 trees, underfit); rmse on the
+            # validation slice tracks point accuracy more smoothly
+            "metric": str(self.p.get("metric", "rmse")),
             "num_leaves": int(self.p.num_leaves),
+            "min_data_in_leaf": int(self.p.get("min_data_in_leaf", 100)),
+            "lambda_l2": float(self.p.get("lambda_l2", 0.0)),
             "learning_rate": float(self.p.learning_rate),
             "feature_fraction": float(self.p.feature_fraction),
             "bagging_fraction": float(self.p.bagging_fraction),
