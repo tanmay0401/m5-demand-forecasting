@@ -1,0 +1,11 @@
+name: xgboost
+# mirrors lightgbm.yaml so the comparison isolates the library, not the recipe
+tweedie_variance_power: 1.1
+num_leaves: 128
+learning_rate: 0.05
+n_estimators: 1500
+early_stopping_rounds: 100
+feature_fraction: 0.8
+bagging_fraction: 0.8
+train_days: 365
+valid_days: 28

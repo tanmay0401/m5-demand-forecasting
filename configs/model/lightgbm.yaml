@@ -8,4 +8,6 @@ early_stopping_rounds: 100
 feature_fraction: 0.8
 bagging_fraction: 0.8
 bagging_freq: 1
-quantiles: [0.05, 0.165, 0.25, 0.5, 0.75, 0.835, 0.95]   # one quantile-objective model each
+train_days: 365              # trailing training window (RAM-bound; top M5 teams used 2-3x for ~1-2% gain)
+valid_days: 28               # early-stopping slice = last 28 train days (features are horizon-safe, so no peeking)
+quantiles: [0.05, 0.165, 0.25, 0.5, 0.75, 0.835, 0.95]   # one quantile-objective model each (exercised in Phase 13)

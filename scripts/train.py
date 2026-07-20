@@ -18,7 +18,7 @@ import pandas as pd
 
 from m5forecast.evaluation.backtest import expanding_folds
 from m5forecast.evaluation.metrics import evaluate_point
-from m5forecast.models.baselines import make_baseline
+from m5forecast.models.factory import build_runs, feature_lookback_days
 from m5forecast.utils.config import REPO_ROOT, load_config
 from m5forecast.utils.logging import get_logger
 from m5forecast.utils.seed import set_seed
@@ -57,12 +57,12 @@ def main(overrides: list[str]) -> None:
         last_train_day=int(cfg.data.train_end_day),
     )
 
-    members = list(cfg.model.members)
-    needs_features = "linear_reg" in members
+    runs = build_runs(cfg.model)
+    lookback = feature_lookback_days(cfg.model)
     features = None
-    if needs_features:
-        min_day = folds[0].train_end - 200  # LR trains on trailing 180d
-        log.info("loading feature table from d=%d for linear_reg", min_day)
+    if lookback is not None:
+        min_day = folds[0].train_end - lookback
+        log.info("loading feature table from d=%d", min_day)
         features = load_feature_table(cfg, min_day)
 
     results: list[dict] = []
@@ -71,14 +71,16 @@ def main(overrides: list[str]) -> None:
         test = panel[(panel["d"] >= fold.test_start) & (panel["d"] <= fold.test_end)]
         future, actuals = test[["id", "d"]], test[["id", "d", "sales"]]
 
-        for name in members:
-            model = make_baseline(name)
+        for name, builder in runs:
+            model = builder()
             model.fit(history, features)
             preds = model.predict(future)
 
             out = REPO_ROOT / cfg.paths.outputs / "forecasts" / name
             out.mkdir(parents=True, exist_ok=True)
             preds.to_parquet(out / f"fold{fold.fold_id}.parquet", index=False)
+            if hasattr(model, "importance_"):
+                model.importance_.to_csv(out / f"importance_fold{fold.fold_id}.csv", index=False)
 
             m = evaluate_point(preds, actuals)
             results.append({"model": name, "fold": fold.fold_id, **m})
