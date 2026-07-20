@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0] — 2026-07-21 — Phase 6
+### Added
+- EDA module (`analysis/eda.py`) + `scripts/run_eda.py`: 8 figures + headline stats JSON.
+- Phase 6 EDA report with measured findings; README data showcase section.
+- Config composer (`utils/config.py`, OmegaConf) + 4 tests.
+### Changed
+- Entry points no longer use Hydra CLI (broken on Python 3.14); same configs, same override syntax.
+- requirements.txt: hydra-core → omegaconf (with explanation).
+### Data
+- M5 raw CSVs in `data/raw/` (gitignored); `panel.parquet` built & validated (59,181,090 rows).
+
 ## [0.5.0] — 2026-07-16 — Phase 5
 ### Added
 - Data pipeline (`src/m5forecast/data/`): typed loaders, wide→long melt, calendar/price joins, SNAP resolution, structural validation.

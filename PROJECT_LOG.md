@@ -2,6 +2,19 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-21 — Real data in; Phase 6 EDA complete
+
+- **Data acquisition saga** (worth remembering): Kaggle API token never existed; browser downloads failed silently because the account (a) wasn't signed in on the automated Chrome profile and (b) had never done **phone verification**, which Kaggle silently requires before joining any competition. Resolution: user verified phone → joined competition (rules accepted with user's explicit OK) → browser download → extracted CSVs moved to `data/raw/`.
+- **Hydra is broken on Python 3.14** (argparse strictness rejects its help strings, crash before main). Replaced entry-point layer with `utils/config.py`: OmegaConf composition of the same configs/ tree, same override semantics (`model=tft`, `a.b=c`). 4 new tests; 14 total green.
+- **Panel built and validated on first real run**: 59,181,090 rows exactly, 68.0% zero-sales cells, 20.8% price-missing (pre-launch), 233MB Parquet, 51s build.
+- **Phase 6 EDA shipped** ([report](docs/phases/PHASE_06_eda.md), 8 figures in reports/figures/):
+  - Weekend lift **+36.9%**; monthly variation only ~8% peak-to-trough.
+  - SNAP lift on FOODS: **CA +10%, TX +16%, WI +30%**.
+  - Median series **73.3% zeros**; distribution modes at 85–95%.
+  - Christmas = **0.05%** of an average day (stores closed).
+  - Promo example: price $4→$3 (≥15% below median = inferred promo) → spikes up to **10×** baseline.
+  - Lesson learned: two naive "pick an illustrative item" heuristics selected artifacts (price-CV found a one-off price blip; adding a price floor found a stockout story). Final selector defines the phenomenon (promo days) and maximizes measured promo-day lift. *Define the phenomenon, then select on it.*
+
 ## 2026-07-16 — Phase 5: dataset teaching + data pipeline code
 
 - Wrote [docs/phases/PHASE_05_dataset.md](docs/phases/PHASE_05_dataset.md) (the three files, join graph, SNAP, pipeline contract).

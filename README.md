@@ -20,7 +20,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 3 | Literature Review | ✅ [docs/phases/PHASE_03_literature_review.md](docs/phases/PHASE_03_literature_review.md) |
 | 4 | Project Planning & Architecture | ✅ [docs/phases/PHASE_04_project_planning.md](docs/phases/PHASE_04_project_planning.md) |
 | 5 | M5 Dataset & Preprocessing | ✅ [docs/phases/PHASE_05_dataset.md](docs/phases/PHASE_05_dataset.md) |
-| 6 | EDA | ⏳ |
+| 6 | EDA | ✅ [docs/phases/PHASE_06_eda.md](docs/phases/PHASE_06_eda.md) |
 | 7 | Feature Engineering | ⏳ |
 | 8 | Baselines | ⏳ |
 | 9 | Gradient Boosting | ⏳ |
@@ -32,6 +32,18 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 15 | Error Analysis | ⏳ |
 | 16 | Research Analysis | ⏳ |
 | 17–18 | Engineering Standards & Documentation | continuous |
+
+## A taste of the data
+
+Five years of Walmart daily unit sales — trend, violent weekly seasonality, and stores literally closing on Christmas:
+
+![Total daily sales](reports/figures/01_total_daily_sales.png)
+
+And the project's namesake phenomenon — inferred promotions (price < 85% of an item's median) driving up to 10× demand spikes:
+
+![Promo example](reports/figures/08_promo_example.png)
+
+More in the [EDA report](docs/phases/PHASE_06_eda.md): +37% weekend lift, per-state SNAP effects, the 73%-zeros median series, and why every one of these findings changed the modeling plan.
 
 ## Repository layout
 
