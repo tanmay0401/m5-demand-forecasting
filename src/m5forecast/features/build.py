@@ -31,6 +31,18 @@ log = get_logger(__name__)
 
 STORES = [f"CA_{i}" for i in range(1, 5)] + [f"TX_{i}" for i in range(1, 4)] + [f"WI_{i}" for i in range(1, 4)]
 
+#: Columns that are identity/keys/raw target — never model inputs by default.
+NON_FEATURES = {
+    "id", "item_id", "dept_id", "cat_id", "store_id", "state_id",
+    "d", "date", "wm_yr_wk", "sales",
+    "event_name_1", "event_type_1", "event_name_2", "event_type_2",
+}
+
+
+def numeric_feature_columns(df: pd.DataFrame) -> list[str]:
+    """Every engineered numeric feature (all non-key columns are numeric by construction)."""
+    return [c for c in df.columns if c not in NON_FEATURES]
+
 
 def build_store_features(store_panel: pd.DataFrame, cfg) -> pd.DataFrame:
     """Apply every feature family (config-driven) to one store's panel slice."""
