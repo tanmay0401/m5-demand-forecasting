@@ -26,16 +26,23 @@ from m5forecast.utils.seed import set_seed
 log = get_logger("scripts.train")
 
 
-def load_feature_table(cfg, min_day: int) -> pd.DataFrame:
-    """Feature rows from min_day on, streamed per store to bound memory."""
-    from m5forecast.features.build import read_features
+DEEPAR_COLS = ["id", "item_id", "dept_id", "store_id", "d", "sales",
+               "dow", "dom", "month", "snap", "is_event", "sell_price"]
 
+
+def load_feature_table(cfg, min_day: int, columns: list[str] | None = None) -> pd.DataFrame:
+    """Feature rows from min_day on, streamed per store to bound memory."""
     feat_dir = REPO_ROOT / cfg.paths.processed / "features"
     parts = []
     for p in sorted(Path(feat_dir).glob("store=*.parquet")):
-        df = pd.read_parquet(p)
+        df = pd.read_parquet(p, columns=columns)
         parts.append(df[df["d"] >= min_day])
-    return pd.concat(parts, ignore_index=True)
+    out = pd.concat(parts, ignore_index=True)
+    # concat of per-store categoricals can silently object-ify; re-assert
+    for c in out.columns:
+        if out[c].dtype == object:
+            out[c] = out[c].astype("category")
+    return out
 
 
 def main(overrides: list[str]) -> None:
@@ -61,9 +68,10 @@ def main(overrides: list[str]) -> None:
     lookback = feature_lookback_days(cfg.model)
     features = None
     if lookback is not None:
-        min_day = folds[0].train_end - lookback
-        log.info("loading feature table from d=%d", min_day)
-        features = load_feature_table(cfg, min_day)
+        min_day = max(folds[0].train_end - lookback, 1)
+        columns = DEEPAR_COLS if cfg.model.name == "deepar" else None
+        log.info("loading feature table from d=%d (columns=%s)", min_day, "subset" if columns else "all")
+        features = load_feature_table(cfg, min_day, columns)
 
     results: list[dict] = []
     for fold in folds:
@@ -81,6 +89,8 @@ def main(overrides: list[str]) -> None:
             preds.to_parquet(out / f"fold{fold.fold_id}.parquet", index=False)
             if hasattr(model, "importance_"):
                 model.importance_.to_csv(out / f"importance_fold{fold.fold_id}.csv", index=False)
+            if hasattr(model, "quantiles_"):
+                model.quantiles_.to_parquet(out / f"quantiles_fold{fold.fold_id}.parquet", index=False)
 
             m = evaluate_point(preds, actuals)
             results.append({"model": name, "fold": fold.fold_id, **m})
