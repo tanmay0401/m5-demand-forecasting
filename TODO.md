@@ -1,11 +1,14 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 9 — Gradient boosting**: LightGBM with Tweedie loss on the 51-column feature table; categorical handling; early stopping on fold 3; feature importance analysis (check the Phase 7 §5 Q10 prediction); per-quantile LightGBM models for probabilistic forecasts; XGBoost comparison run.
+- [ ] **Phase 10 — DeepAR-style model**: install torch (verify py3.14 wheels first!); teach RNN/LSTM/likelihood forecasting; implement dataset windowing + LSTM + NegBin head + per-series scaling + ancestral sampling; backtest (deep models may run fewer folds for compute honesty — document).
 
-## Backlog (phases 10–18)
-- [ ] Phase 9 — Gradient boosting pipeline (LightGBM primary, XGBoost comparison)
-- [ ] Phase 10 — DeepAR-style probabilistic model (PyTorch, Negative Binomial likelihood; install torch)
+## Deferred to later phases
+- [ ] Exercise `predict_quantiles` for LightGBM (per-quantile objectives) → Phase 13
+- [ ] GBM fold-1 event-window under-forecast (Super Bowl, bias −0.11) → dissect in Phase 14
+- [ ] Direct-model feature staleness vs recursive/per-horizon alternatives → Phase 16 research question
+
+## Backlog (phases 11–18)
 - [ ] Phase 11 — Temporal transformer (TFT-style)
 - [ ] Phase 12 — 12-level hierarchy construction + reconciliation (BU / TD / MinT)
 - [ ] Phase 13 — Metrics: WRMSSE, quantile/pinball loss, coverage, calibration; model comparison

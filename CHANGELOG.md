@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0] — 2026-07-21 — Phase 9
+### Added
+- `models/gbm.py`: LightGBM + XGBoost forecasters (tweedie, direct multi-step, native categoricals, per-fold gain importances); `models/factory.py`; `configs/model/xgboost.yaml`; 3 tests.
+- Feature-importance figure (09) and full results/interpretation in the Phase 9 doc.
+### Changed
+- LightGBM recipe tuned: rmse early-stop metric, min_data_in_leaf=200 (experiments logged).
+- xgboost added to the environment/requirements.
+
 ## [0.8.0] — 2026-07-21 — Phase 8
 ### Added
 - Shared model interface (`models/base.py`); five baselines (`models/baselines.py`).

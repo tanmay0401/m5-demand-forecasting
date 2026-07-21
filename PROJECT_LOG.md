@@ -2,6 +2,15 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-21 — Phase 9: gradient boosting (LightGBM + XGBoost)
+
+- Built `models/gbm.py` (both libraries behind the Phase 8 interface, mirrored recipes), `models/factory.py`, extended `scripts/train.py`. 34 tests green. xgboost had been missing from the env (added).
+- **Tuning experiments** (all one-override reproducible):
+  - tweedie-NLL early stopping → halted ~70–120 trees, underfit → **rmse stopping** (194 trees, fold-3 WAPE 0.7521, RMSE 2.130 vs MA's 2.219).
+  - `train_days` 550 < 365 (0.7542 vs 0.7521) — recent regime beats volume.
+- **Results (3-fold mean):** XGBoost 0.7694 WAPE ≈ LightGBM 0.7704, but LightGBM 3× faster (2.5 vs 8 min/fold). Both beat linear_reg (0.7925) clearly = measured value of non-linearity. Neither cleanly beats MA(28) on WAPE yet (0.7535): documented three-cause reading (direct-model feature staleness; WAPE's geometry favoring smoothers on sparse series — GBMs already win fold-3 RMSE by 4%; fold-1 event window under-forecast). Final verdict deferred to WRMSSE (Phase 13) by design.
+- **Importance findings** (figure 09): `ewm_a1` 46% + `r_mean_90` 23% of gain — Phase 7 prediction half-right (levels dominate; wrong about which). `dow` at 0.58% despite +37% weekend lift, and the underfitting explanation was falsified (194 trees, unchanged) — real cause: all lags are same-weekday multiples of 7, so weekday signal lives in the lag structure; importance is marginal-within-feature-set, not causal. `item_id`: 8% gain via 14k splits (native categoricals earning keep).
+
 ## 2026-07-21 — Phase 8: baselines + evaluation harness
 
 - Shipped the evaluation backbone ([doc](docs/phases/PHASE_08_baselines.md)):

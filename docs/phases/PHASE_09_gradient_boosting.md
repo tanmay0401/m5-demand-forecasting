@@ -42,11 +42,35 @@ That gradient view is the key generalization: swap the loss, and the same machin
 
 ## 5. Results (3-fold mean, vs the Phase 8 bar)
 
-<!-- RESULTS -->
+| model | MAE | RMSE | WAPE | bias | train time/fold |
+|---|---|---|---|---|---|
+| xgboost | **1.0621** | **2.3053** | **0.7694** | −0.068 | ~8 min |
+| lightgbm | 1.0634 | 2.3110 | 0.7704 | −0.071 | ~2.5 min |
+| *moving_avg_28 (bar)* | 1.0401 | 2.2849 | 0.7535 | −0.035 | seconds |
+| *linear_reg* | 1.0939 | 2.2946 | 0.7925 | −0.013 | ~1 min |
+
+Per-fold detail (LightGBM): fold 1 WAPE 0.7814 / RMSE 2.430, fold 2 0.7777 / 2.373, fold 3 0.7521 / **2.130** (vs MA's 2.219 on the same fold).
+
+### Honest reading (this is the part interviewers respect)
+
+1. **LightGBM ≈ XGBoost** (0.1% apart) with mirrored recipes — but LightGBM trains **3× faster**. That speed *is* the practical difference: same accuracy, more experiments per day. Claim about this dataset/recipe, not a universal law.
+2. **GBMs beat linear regression clearly** (0.769 vs 0.792 WAPE, same features) — that gap is the isolated value of non-linearity and interactions.
+3. **GBMs have NOT cleanly beaten the 28-day moving average yet** — they tie/win fold 3 (and win its RMSE by 4%), lose fold 1. Three compounding reasons, all documented:
+   - **Feature staleness:** the single direct model uses ≥28-day-old target features for *every* horizon day; MA standing at the origin uses data as fresh as yesterday. Known cost of one-model-direct; the escapes (recursive, per-horizon models) are Phase 16 discussion material.
+   - **Metric geometry:** WAPE (unit-weighted absolute error) flatters median-ish smoothers on 73%-zeros series. On RMSE — the geometry WRMSSE inherits — LightGBM already wins fold 3 decisively. The final verdict belongs to WRMSSE (Phase 13), which additionally weights by dollars, concentrating scoring mass on dense series where GBMs are strongest.
+   - **Fold 1 (test = late Jan–Feb 2016, contains the Super Bowl) is the GBMs' worst fold, with their largest negative bias (−0.11):** under-forecasting an event window. Phase 14's promotion/event analysis will dissect exactly this.
+4. **Tuning log:** tweedie-NLL early stopping halted at ~70–120 trees (underfit, WAPE 0.7523 on fold 3); rmse stopping ran to 194 trees (0.7521, RMSE 2.13); `train_days=550` was *worse* than 365 (0.7542) — recent regime beats data volume here. Every experiment is one config override, reproducible from the committed YAML.
 
 ## 6. Feature importance — checking the Phase 7 prediction
 
-<!-- IMPORTANCE -->
+![Feature importance](../../reports/figures/09_feature_importance.png)
+
+The Phase 7 §5 Q10 prediction — "level features dominate: `r_mean_7/28` and `hist_mean` top, then `dow`, then price" — gets a verdict:
+
+- **Half right:** level features do dominate — overwhelmingly.
+- **Half wrong, instructively:** the *winning* levels are `ewm_a1` (46% of all gain — the adaptive exponentially-weighted level) and `r_mean_90` (23%), not the short windows I predicted. The model prefers one smooth adaptive level plus one long stable level over the noisy 7-day view (`r_mean_7`: 0.9%).
+- **`dow` at 0.58% looked broken** given the measured +37% weekend lift — and my first explanation (underfitting; more trees would raise it) was **falsified**: 194 trees, still 0.58%. The real mechanism: **every lag is a same-weekday lag** (28, 35, 42, 49, 56, 364 — all multiples of 7). Weekly seasonality enters through the weekday-aligned lag structure, so the `dow` column has almost no *marginal* gain left to claim. Feature importance measures marginal contribution within THIS feature set, not causal strength — a textbook interpretability trap, experienced firsthand.
+- `item_id` earns 8% of gain across 14,314 splits — native categorical handling doing real work (this is the feature one-hot encoding would have destroyed).
 
 ## 7. Interview questions — Phase 9
 

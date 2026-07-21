@@ -23,7 +23,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 6 | EDA | ✅ [docs/phases/PHASE_06_eda.md](docs/phases/PHASE_06_eda.md) |
 | 7 | Feature Engineering | ✅ [docs/phases/PHASE_07_feature_engineering.md](docs/phases/PHASE_07_feature_engineering.md) |
 | 8 | Baselines | ✅ [docs/phases/PHASE_08_baselines.md](docs/phases/PHASE_08_baselines.md) |
-| 9 | Gradient Boosting | ⏳ |
+| 9 | Gradient Boosting | ✅ [docs/phases/PHASE_09_gradient_boosting.md](docs/phases/PHASE_09_gradient_boosting.md) |
 | 10 | DeepAR-style Model | ⏳ |
 | 11 | Temporal Transformer | ⏳ |
 | 12 | Hierarchical Reconciliation | ⏳ |
