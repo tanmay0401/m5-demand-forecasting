@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0] — 2026-07-22 — Phase 14
+### Added
+- `analysis/promotions.py` + `scripts/analyze_promos.py`: promo model comparison, event-window error, category elasticity.
+- 3 figures (promo bias, event error, elasticity); Phase 14 doc.
+### Findings
+- Promo-blind MA has 3× the promo penalty of price-aware models; FOODS elasticity −4.06; HOBBIES/HOUSEHOLD price cuts are clearance, not promos.
+
 ## [0.13.0] — 2026-07-22 — Phase 13
 ### Added
 - `evaluation/wrmsse.py` (official M5 WRMSSE), pinball loss + quantile report in `metrics.py`.

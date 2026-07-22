@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 14: promotions & events analysis (the namesake)
+
+- **Promo handling (FOODS, d1886–1913):** all models under-forecast promos; the promo-blind moving average is worst (promo penalty −0.34, 3× any price-aware model) — the cleanest justification for the price/promo features. GBMs give the best absolute promo forecasts (−0.16/−0.19); deep models respond to price (promo penalty ~0) but are dragged by their median bias.
+- **Event windows (LightGBM, Feb–Mar 2016 folds):** systematic under-forecast of the pre-event build-up, worst 1 day before (−0.15 ≈ 10% of actual) — quantifies the Phase 9 flag.
+- **Elasticity by category (headline):** FOODS elasticity **−4.06** (25% cut → demand doubles, 2× lift) — real promotional behaviour. HOBBIES/HOUSEHOLD show *positive* elasticity (demand falls when price falls) because their price cuts are **clearance markdowns on declining stock, not promotions** — the "price<85% of median = promo" heuristic conflates the two in non-food categories. Sophisticated, honest caveat; promo-driven forecasting in M5 is really a FOODS story.
+- `analysis/promotions.py` (segment metrics, event-distance error, streamed elasticity), `scripts/analyze_promos.py`, 3 figures.
+
 ## 2026-07-22 — Phase 13: WRMSSE + quantile loss (the capstone metric)
 
 - Implemented official M5 **WRMSSE** (`evaluation/wrmsse.py`): RMSSE (naive-scaled from first sale, streamed per level) × revenue weights (per-level normalized, 1/12 each level); scores any bottom forecast bottom-up over all 12 levels. Plus pinball loss + coverage in `metrics.py`. 7 tests.

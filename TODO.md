@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 14 — Promotions & events analysis**: dissect model errors specifically on promo weeks (is_promo=1) and event windows (Super Bowl, Christmas, etc.); which family handles spikes best and why; quantify the GBM fold-1 event under-forecast flagged in Phase 9; realized price elasticity by category.
+- [ ] **Phase 15 — Error analysis**: automated failure taxonomy — cold-start / new products, intermittent-sparse demand, likely stockouts (zero runs), holiday/event effects, demand shocks, price-change misses; per-category error breakdown; worst-series diagnostics with visualizations.
 
 ## Deferred / decided
 - [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.
