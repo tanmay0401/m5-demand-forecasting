@@ -92,9 +92,14 @@ def build_hierarchy(meta: pd.DataFrame, levels: list[tuple[str, list[str]]] = LE
     rows, cols, node_records = [], [], []
     node_idx = 0
     level_slices: dict[str, slice] = {}
+    ids = meta["id"].to_numpy()
     for name, keys in levels:
         start = node_idx
-        if not keys:  # total: one node summing every bottom series
+        if name == leaf_level:
+            # leaves MUST be identity rows aligned to the columns (bottom_ids
+            # order), or bottom-level indexing / coherence / bottom-up scramble
+            groups = [(ids[c], np.array([c])) for c in bottom_col]
+        elif not keys:  # total: one node summing every bottom series
             groups = [("__total__", bottom_col)]
         else:
             key = meta[keys].astype(str).agg("|".join, axis=1) if len(keys) > 1 else meta[keys[0]].astype(str)

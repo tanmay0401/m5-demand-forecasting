@@ -94,6 +94,30 @@ def test_mint_is_coherent_and_reduces_to_bu(meta):
     assert np.allclose(rec, bottom_up(base, h), atol=1e-3)
 
 
+def test_leaf_rows_align_with_columns_when_id_order_differs():
+    # ids deliberately sort DIFFERENTLY from "item|store" keys: id "z1".."z4"
+    # vs keys "B|Y","A|Y",... — catches leaf rows sorted by key not by column
+    rows = [
+        ("z1", "B", "D1", "C1", "Y", "ST"),
+        ("z2", "A", "D1", "C1", "Y", "ST"),
+        ("z3", "B", "D1", "C1", "X", "ST"),
+        ("z4", "A", "D1", "C1", "X", "ST"),
+    ]
+    meta = pd.DataFrame(rows, columns=["id", "item_id", "dept_id", "cat_id", "store_id", "state_id"])
+    h = build_hierarchy(meta)
+    # leaf block is the identity in column (id) order
+    assert np.allclose(h.S[h.bottom_slice].toarray(), np.eye(4))
+    # a reconciled (coherent) vector must have zero coherence error
+    b = np.array([[5.0], [1.0], [9.0], [3.0]])  # keyed to z1..z4 = bottom_ids order
+    allv = h.aggregate(b)
+    from m5forecast.hierarchy.reconciliation import coherence_error
+    assert coherence_error(allv, h) < 1e-9
+    # bottom-up recovers the exact bottom values in id order
+    from m5forecast.hierarchy.reconciliation import bottom_up
+    rec = bottom_up(allv, h)
+    assert np.allclose(rec[h.bottom_slice], b)
+
+
 def test_full_m5_hierarchy_counts():
     # synthesize the real M5 cardinalities: 3049 items x 10 stores (3 states)
     stores = [("CA_1", "CA"), ("CA_2", "CA"), ("CA_3", "CA"), ("CA_4", "CA"),
