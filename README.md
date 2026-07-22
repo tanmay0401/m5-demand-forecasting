@@ -19,7 +19,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 
 ## Status
 
-Phases 1–17 complete; final documentation in progress. [TODO.md](TODO.md) · [PROJECT_LOG.md](PROJECT_LOG.md)
+✅ **Complete** — all 20 phases. Held-out (d1914–1941, single touch) confirms the ranking: LightGBM 0.679 WRMSSE, still the champion on unseen data. [TODO.md](TODO.md) · [PROJECT_LOG.md](PROJECT_LOG.md)
 
 | Phase | Topic | Status |
 |---|---|---|
@@ -40,7 +40,9 @@ Phases 1–17 complete; final documentation in progress. [TODO.md](TODO.md) · [
 | 15 | Error Analysis | ✅ [docs/phases/PHASE_15_error_analysis.md](docs/phases/PHASE_15_error_analysis.md) |
 | 16 | Research Analysis | ✅ [docs/phases/PHASE_16_research_analysis.md](docs/phases/PHASE_16_research_analysis.md) |
 | 17 | Engineering Standards (CI, integration test, Makefile) | ✅ [docs/phases/PHASE_17_engineering.md](docs/phases/PHASE_17_engineering.md) |
-| 18 | Documentation & final report | ⏳ |
+| 18 | Documentation & held-out final number | ✅ [docs/phases/PHASE_18_documentation.md](docs/phases/PHASE_18_documentation.md) |
+| 19 | Teaching mode | ✅ delivered throughout the per-phase docs |
+| 20 | Interview prep | ✅ [docs/INTERVIEW_PREP.md](docs/INTERVIEW_PREP.md) |
 
 ## A taste of the data
 

@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 18: documentation + held-out final number (PROJECT COMPLETE)
+
+- Shipped the documentation set: `docs/TECHNICAL_REPORT.md`, `docs/INTERVIEW_PREP.md`, Phase 18 doc, README landing page.
+- **Single-touch held-out (d1914–1941, never seen in development):** LightGBM **0.679**, moving_avg 1.082, TFT 1.468, DeepAR 1.832 (pinball ~0.30 stable). **Ranking identical to backtest** — gradient boosting wins on unseen data, no overfitting reversal. LightGBM 0.555→0.679 = honest mild backtest optimism; MA/TFT barely move (untuned); DeepAR worse (median-bias compounds) but pinball stable (calibration generalizes). The "touch once" discipline delivered a trustworthy number.
+- `final_eval.py` runs one model per process (OOM fix after XGBoost exceeded 16GB; XGBoost held-out skipped — tied LightGBM on backtest so champion stands).
+- All 20 phases complete. Phase 19 (teaching) delivered throughout per-phase docs; Phase 20 (interview prep) = INTERVIEW_PREP.md. 44+ commits, 60 tests, CI green, on GitHub.
+
 ## 2026-07-22 — Phase 17: engineering hardening
 
 - Added `Makefile` (pipeline + dev targets), `.github/workflows/tests.yml` (CI: pytest + ruff, CPU torch, no data needed), ruff config, and **an end-to-end integration test**.

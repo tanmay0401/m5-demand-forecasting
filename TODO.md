@@ -1,7 +1,14 @@
 # TODO / Roadmap
 
-## Next up
-- [ ] **Phase 18 — Documentation & final report**: technical report (TECHNICAL_REPORT.md) consolidating results; architecture doc; limitations & future work; the single-touch held-out d1942–1969 evaluation (train through d1913, forecast the reserved block, report WRMSSE once); interview-prep master doc (Phase 20 content).
+## ✅ Project complete — all 20 phases
+
+Optional extensions (from the technical report's future-work section):
+- [ ] Predictive-mean point forecasts as the deep models' default (verified to cut WRMSSE 2.8×)
+- [ ] Per-quantile Tweedie LightGBM (probabilistic gradient boosting)
+- [ ] Sparse-solver MinT at full 30,490-series scale
+- [ ] Markdown-vs-promotion classifier (separate the FOODS elasticity from non-food clearance)
+- [ ] Ensemble the model families (the M5 winners' key move)
+- [ ] XGBoost held-out run on a larger-memory machine
 
 ## Deferred / decided
 - [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.

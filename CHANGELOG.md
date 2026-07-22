@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.0] — 2026-07-22 — Phase 18 · PROJECT COMPLETE
+### Added
+- `docs/TECHNICAL_REPORT.md`, `docs/INTERVIEW_PREP.md`, Phase 18 doc; README landing page.
+- `scripts/final_eval.py`: single-touch held-out (d1914–1941) evaluation.
+### Result
+- Held-out confirms the backtest ranking: LightGBM 0.679 WRMSSE (champion on unseen data); deep-model pinball stable ~0.30.
+- All 20 phases complete.
+
 ## [0.17.0] — 2026-07-22 — Phase 17
 ### Added
 - `Makefile`, GitHub Actions CI (`.github/workflows/tests.yml`), ruff config, end-to-end integration test (60 tests total).
