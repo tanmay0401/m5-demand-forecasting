@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 15 — Error analysis**: automated failure taxonomy — cold-start / new products, intermittent-sparse demand, likely stockouts (zero runs), holiday/event effects, demand shocks, price-change misses; per-category error breakdown; worst-series diagnostics with visualizations.
+- [ ] **Phase 16 — Research analysis**: answer with experiments — when do GBMs beat deep models (and vice versa)? how much does reconciliation help (Phase 12)? median vs mean functional (Phase 13)? promo-awareness value (Phase 14)? Consolidate the cross-phase findings into experiment-backed research conclusions.
 
 ## Deferred / decided
 - [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.

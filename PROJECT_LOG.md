@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 15: automated error taxonomy
+
+- `analysis/errors.py`: classify every series by failure regime from training history (cold_start/dormant/sparse/demand_shock/dense_stable), then measure LightGBM error mass per regime.
+- **Findings:** dense_stable = 71% series / 90% sales / 81.5% error but BEST WAPE (0.68) — error follows volume, not weakness. **demand_shock** = 8% series but 11% error at WAPE 1.28 (error share > sales share) — the real, highest-leverage failure. sparse/dormant WAPE 1.4/2.4 (worse than naive) but only ~4% error each (low volume). cold_start negligible (24 series) — M5's fixed catalog, a dataset artifact not a solved problem. Dormant = stockout recoveries where training zeros were censored demand (ties Phase 1).
+- Worst 10 series: high-volume FOODS_3 concentrated in store WI_2 (worst: forecast 993 vs actual 1862) — exactly what revenue-weighted WRMSSE punishes.
+- `scripts/analyze_errors.py`, taxonomy figure (15).
+
 ## 2026-07-22 — Phase 14: promotions & events analysis (the namesake)
 
 - **Promo handling (FOODS, d1886–1913):** all models under-forecast promos; the promo-blind moving average is worst (promo penalty −0.34, 3× any price-aware model) — the cleanest justification for the price/promo features. GBMs give the best absolute promo forecasts (−0.16/−0.19); deep models respond to price (promo penalty ~0) but are dragged by their median bias.

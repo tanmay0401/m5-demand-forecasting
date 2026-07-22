@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0] — 2026-07-22 — Phase 15
+### Added
+- `analysis/errors.py` + `scripts/analyze_errors.py`: failure-regime classification and per-regime error taxonomy; worst-series diagnostics.
+- Error taxonomy figure (15); Phase 15 doc.
+### Findings
+- Demand shocks are the highest-leverage failure (11% error / 8% series); sparse/dormant hard but low-impact; cold-start negligible in M5's fixed catalog.
+
 ## [0.14.0] — 2026-07-22 — Phase 14
 ### Added
 - `analysis/promotions.py` + `scripts/analyze_promos.py`: promo model comparison, event-window error, category elasticity.
