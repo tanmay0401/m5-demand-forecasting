@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 16 — Research analysis**: answer with experiments — when do GBMs beat deep models (and vice versa)? how much does reconciliation help (Phase 12)? median vs mean functional (Phase 13)? promo-awareness value (Phase 14)? Consolidate the cross-phase findings into experiment-backed research conclusions.
+- [ ] **Phase 17 — Engineering standards**: audit configs/logging/seeds/type-hints; ensure `pip install -e . && pytest` is clean from scratch; add a Makefile/pipeline runner; verify reproducibility; document experiment tracking (MLflow). Then **Phase 18** — full documentation set (technical report, guides, limitations, held-out d1942–1969 final number).
 
 ## Deferred / decided
 - [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.

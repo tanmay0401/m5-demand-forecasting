@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 16: research analysis (experiment-backed conclusions)
+
+- **Winner-flip experiment (headline):** per series, deep models win **75%** on absolute error; mean-like models (MA+GBM) win **76%** on squared error — same forecasts, opposite winners. Model choice = metric choice = decision, proven at series grain.
+- **Per-regime WAPE:** deep models win every regime; standout is **dormant/stockout-recovery where GBMs are catastrophic (WAPE 2.4) vs deep 1.0** — GBM recency features collapse to 0 on dormant series while deep embeddings retain per-series level. Deep also win cold_start (embeddings generalize) and sparse (median≈0).
+- Consolidated all cross-phase findings into experiment-backed answers: GBMs win WRMSSE (unbiased→aggregation helps); deep win absolute-error + memory regimes; TFT≈DeepAR but 100× faster inference; reconciliation ~5× at top but bias-dependent; promo-awareness worth 3× penalty; median→mean functional worth 2.8× WRMSSE. Verdict table by objective.
+- `analysis/research.py`, `scripts/analyze_research.py`, per-regime figure (16).
+
 ## 2026-07-22 — Phase 15: automated error taxonomy
 
 - `analysis/errors.py`: classify every series by failure regime from training history (cold_start/dormant/sparse/demand_shock/dense_stable), then measure LightGBM error mass per regime.

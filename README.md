@@ -30,7 +30,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 13 | Evaluation (WRMSSE, Quantile Loss) | ✅ [docs/phases/PHASE_13_evaluation.md](docs/phases/PHASE_13_evaluation.md) |
 | 14 | Promotions & Events Analysis | ✅ [docs/phases/PHASE_14_promotions_events.md](docs/phases/PHASE_14_promotions_events.md) |
 | 15 | Error Analysis | ✅ [docs/phases/PHASE_15_error_analysis.md](docs/phases/PHASE_15_error_analysis.md) |
-| 16 | Research Analysis | ⏳ |
+| 16 | Research Analysis | ✅ [docs/phases/PHASE_16_research_analysis.md](docs/phases/PHASE_16_research_analysis.md) |
 | 17–18 | Engineering Standards & Documentation | continuous |
 
 ## A taste of the data

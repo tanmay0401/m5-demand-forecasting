@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0] — 2026-07-22 — Phase 16
+### Added
+- `analysis/research.py` + `scripts/analyze_research.py`: per-regime model comparison, per-series winner-by-metric.
+- Per-regime WAPE figure (16); Phase 16 research conclusions doc (verdict-by-objective table).
+### Findings
+- Winner flips with metric (deep win 75% absolute / mean-like win 76% squared); GBMs catastrophic on dormant series where deep embeddings retain memory.
+
 ## [0.15.0] — 2026-07-22 — Phase 15
 ### Added
 - `analysis/errors.py` + `scripts/analyze_errors.py`: failure-regime classification and per-regime error taxonomy; worst-series diagnostics.
