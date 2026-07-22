@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.17.0] — 2026-07-22 — Phase 17
+### Added
+- `Makefile`, GitHub Actions CI (`.github/workflows/tests.yml`), ruff config, end-to-end integration test (60 tests total).
+- Phase 17 engineering doc.
+### Fixed
+- `ForecastModel._finalize` categorical-clip bug (coerce to float array) — found by the integration test.
+### Changed
+- `scipy` promoted to an explicit dependency; import ordering cleaned (ruff).
+
 ## [0.16.0] — 2026-07-22 — Phase 16
 ### Added
 - `analysis/research.py` + `scripts/analyze_research.py`: per-regime model comparison, per-series winner-by-metric.

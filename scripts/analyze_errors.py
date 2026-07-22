@@ -51,7 +51,8 @@ def _figure(tax, figs):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from m5forecast.analysis.eda import BLUE, ORANGE, INK_2, MUTED, _save, _style
+
+    from m5forecast.analysis.eda import BLUE, INK_2, MUTED, _save, _style
 
     _style()
     t = tax.sort_values("err_share_pct")

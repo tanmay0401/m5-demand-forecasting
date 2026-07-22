@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 17 — Engineering standards**: audit configs/logging/seeds/type-hints; ensure `pip install -e . && pytest` is clean from scratch; add a Makefile/pipeline runner; verify reproducibility; document experiment tracking (MLflow). Then **Phase 18** — full documentation set (technical report, guides, limitations, held-out d1942–1969 final number).
+- [ ] **Phase 18 — Documentation & final report**: technical report (TECHNICAL_REPORT.md) consolidating results; architecture doc; limitations & future work; the single-touch held-out d1942–1969 evaluation (train through d1913, forecast the reserved block, report WRMSSE once); interview-prep master doc (Phase 20 content).
 
 ## Deferred / decided
 - [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.

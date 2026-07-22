@@ -86,9 +86,11 @@ def main() -> None:
 def _figure(results, h, cfg):
     import matplotlib
     matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
     from pathlib import Path
-    from m5forecast.analysis.eda import BLUE, GREEN, MAGENTA, ORANGE, INK, INK_2, _save, _style
+
+    import matplotlib.pyplot as plt
+
+    from m5forecast.analysis.eda import BLUE, GREEN, INK_2, ORANGE, _save, _style
 
     _style()
     models = list(results["models"])

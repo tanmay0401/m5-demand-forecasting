@@ -17,7 +17,6 @@ pick the most diagnostic):
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 
 TRAIN_END = 1885

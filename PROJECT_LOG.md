@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 17: engineering hardening
+
+- Added `Makefile` (pipeline + dev targets), `.github/workflows/tests.yml` (CI: pytest + ruff, CPU torch, no data needed), ruff config, and **an end-to-end integration test**.
+- **Integration test caught a real bug on first run:** `ForecastModel._finalize` clipped a Series that could be categorical (when mapping a categorical id) → `TypeError: Unordered Categoricals`. Unit tests missed it (string-id fixtures); real runs missed it (parquet changes id dtype). Fixed `_finalize` to coerce to a float array regardless of input dtype. *This is exactly the inter-module seam integration tests exist to catch.*
+- Reproducibility verified: `pip install -e .` clean, all 20 modules import, 60 tests green with no downloaded data (synthetic fixtures; deep tests importorskip torch). Promoted `scipy` to an explicit dependency.
+- Documented honest remaining gaps (single-fold deep runs, upper-only exact MinT, no Dockerfile).
+
 ## 2026-07-22 — Phase 16: research analysis (experiment-backed conclusions)
 
 - **Winner-flip experiment (headline):** per series, deep models win **75%** on absolute error; mean-like models (MA+GBM) win **76%** on squared error — same forecasts, opposite winners. Model choice = metric choice = decision, proven at series grain.

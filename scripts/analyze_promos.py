@@ -28,7 +28,7 @@ def main():
     cfg = load_config()
     fc = REPO_ROOT / cfg.paths.outputs / "forecasts"
     figs = Path(REPO_ROOT / cfg.paths.figures)
-    from m5forecast.features.build import read_features, STORES
+    from m5forecast.features.build import STORES, read_features
 
     # ---- 1. promo model comparison on FOODS, common window ----
     feats = read_features("data/processed/features",
@@ -77,7 +77,8 @@ def _figures(promo_cmp, event_err, elas, figs):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from m5forecast.analysis.eda import (BLUE, GREEN, MAGENTA, ORANGE, MUTED, INK_2, _save, _style)
+
+    from m5forecast.analysis.eda import BLUE, INK_2, MAGENTA, MUTED, ORANGE, _save, _style
 
     _style()
     # A: promo vs non-promo bias by model

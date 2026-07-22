@@ -47,7 +47,8 @@ def _figure(regime_wape, figs):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from m5forecast.analysis.eda import BLUE, GREEN, MAGENTA, ORANGE, MUTED, INK_2, _save, _style
+
+    from m5forecast.analysis.eda import BLUE, GREEN, MAGENTA, MUTED, ORANGE, _save, _style
 
     _style()
     colors = {"moving_avg_28": ORANGE, "lightgbm": BLUE, "xgboost": MUTED, "deepar": GREEN, "tft": MAGENTA}

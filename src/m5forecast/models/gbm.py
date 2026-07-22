@@ -19,9 +19,6 @@ legitimate because all features at day t use data <= t-28 (no peeking).
 
 from __future__ import annotations
 
-from pathlib import Path
-
-import numpy as np
 import pandas as pd
 
 from m5forecast.features.build import numeric_feature_columns

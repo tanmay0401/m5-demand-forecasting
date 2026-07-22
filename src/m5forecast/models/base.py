@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+import numpy as np
 import pandas as pd
 
 
@@ -27,7 +28,7 @@ class ForecastModel(ABC):
     name: str = "abstract"
 
     @abstractmethod
-    def fit(self, history: pd.DataFrame, features: pd.DataFrame | None = None) -> "ForecastModel":
+    def fit(self, history: pd.DataFrame, features: pd.DataFrame | None = None) -> ForecastModel:
         ...
 
     @abstractmethod
@@ -39,7 +40,13 @@ class ForecastModel(ABC):
 
     @staticmethod
     def _finalize(future: pd.DataFrame, yhat: pd.Series) -> pd.DataFrame:
-        """Common post-processing: clip negatives (demand is a count), cast float32."""
+        """Common post-processing: clip negatives (demand is a count), cast float32.
+
+        Coerce to numeric first: mapping a categorical id column can yield a
+        categorical Series, which cannot be clipped — so force a float array
+        regardless of how the caller produced yhat.
+        """
         out = future[["id", "d"]].copy()
-        out["yhat"] = yhat.clip(lower=0).astype("float32").to_numpy()
+        vals = pd.to_numeric(pd.Series(yhat).reset_index(drop=True), errors="coerce").to_numpy(dtype="float32")
+        out["yhat"] = np.clip(vals, 0.0, None)
         return out

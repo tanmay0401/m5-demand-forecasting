@@ -2,6 +2,7 @@
 numpy>=1.26
 pandas>=2.1
 pyarrow>=14.0
+scipy>=1.11          # sparse summing matrix + MinT solve (hierarchy/)
 
 # Models
 lightgbm>=4.1

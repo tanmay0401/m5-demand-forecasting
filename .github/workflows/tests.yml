@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install (core deps, CPU torch)
+        run: |
+          python -m pip install --upgrade pip
+          # CPU-only torch keeps CI fast; the deep-model tests importorskip if absent
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy pandas pyarrow scipy scikit-learn lightgbm xgboost omegaconf matplotlib pytest
+          pip install -e .
+      - name: Run tests
+        run: pytest -q
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check src scripts tests || true   # advisory, non-blocking

@@ -10,7 +10,6 @@ both point functionals on WRMSSE.
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 
 from m5forecast.evaluation.backtest import expanding_folds

@@ -31,7 +31,8 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 14 | Promotions & Events Analysis | ✅ [docs/phases/PHASE_14_promotions_events.md](docs/phases/PHASE_14_promotions_events.md) |
 | 15 | Error Analysis | ✅ [docs/phases/PHASE_15_error_analysis.md](docs/phases/PHASE_15_error_analysis.md) |
 | 16 | Research Analysis | ✅ [docs/phases/PHASE_16_research_analysis.md](docs/phases/PHASE_16_research_analysis.md) |
-| 17–18 | Engineering Standards & Documentation | continuous |
+| 17 | Engineering Standards (CI, integration test, Makefile) | ✅ [docs/phases/PHASE_17_engineering.md](docs/phases/PHASE_17_engineering.md) |
+| 18 | Documentation & final report | ⏳ |
 
 ## A taste of the data
 

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import numpy as np
-import pandas as pd
 import pytest
 
 torch = pytest.importorskip("torch")
@@ -14,7 +12,7 @@ from m5forecast.models.tft.model import TFTForecaster
 from m5forecast.models.tft.network import GRN, TFTNet
 
 # reuse the DeepAR synthetic generator
-from tests.test_deepar import make_features, TRAIN_END
+from tests.test_deepar import TRAIN_END, make_features
 
 QUANTILES = [0.1, 0.5, 0.9]
 CFG = OmegaConf.create(

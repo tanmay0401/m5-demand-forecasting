@@ -143,9 +143,11 @@ def main() -> None:
 def _figure(results, cfg) -> None:
     import matplotlib
     matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    from m5forecast.analysis.eda import BLUE, GREEN, MAGENTA, INK_2, MUTED, _save, _style
     from pathlib import Path
+
+    import matplotlib.pyplot as plt
+
+    from m5forecast.analysis.eda import BLUE, MAGENTA, MUTED, _save, _style
 
     _style()
     levels = list(results["per_level"]["base"].keys())[:-1]  # drop ALL_avg
