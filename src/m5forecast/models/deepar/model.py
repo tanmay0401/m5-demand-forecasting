@@ -98,6 +98,7 @@ class DeepARForecaster(ForecastModel):
         self.net.eval()
 
         med = np.zeros((n_series, horizon), dtype="float32")
+        mean = np.zeros((n_series, horizon), dtype="float32")  # predictive mean (unbiased point)
         qs = {q: np.zeros((n_series, horizon), dtype="float32") for q in quantile_levels}
 
         chunk = int(self.p.get("predict_chunk", 2048))
@@ -117,6 +118,7 @@ class DeepARForecaster(ForecastModel):
                 batch["cats"], batch["nu"], n_samples,
             )  # [B, S, H]
             med[lo:hi] = paths.quantile(0.5, dim=1).cpu().numpy()
+            mean[lo:hi] = paths.mean(dim=1).cpu().numpy()
             for q in quantile_levels:
                 qs[q][lo:hi] = paths.quantile(q, dim=1).cpu().numpy()
 
@@ -128,6 +130,11 @@ class DeepARForecaster(ForecastModel):
         self.quantiles_ = future[["id", "d"]].copy()
         for q in quantile_levels:
             self.quantiles_[f"q{q}"] = qs[q][id_codes, day_idx]
+
+        # expose the predictive-mean point forecast too (unbiased; better for
+        # squared/aggregate metrics like WRMSSE — see Phase 13)
+        self.mean_forecast_ = future[["id", "d"]].copy()
+        self.mean_forecast_["yhat"] = np.clip(mean[id_codes, day_idx], 0, None)
 
         return self._finalize(future, pd.Series(yhat, index=future.index))
 
