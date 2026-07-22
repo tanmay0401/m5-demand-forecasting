@@ -1,7 +1,12 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 13 — Evaluation (WRMSSE + quantile loss)**: implement the official M5 WRMSSE (scaled + dollar-weighted over all 12 levels); pinball/quantile loss + coverage/calibration on the deep models' stored quantiles; final model comparison table across all families + reconciliation; THIS is where the GBM-vs-deep verdict gets settled. Then touch the reserved d1942–1969 evaluation block exactly once.
+- [ ] **Phase 14 — Promotions & events analysis**: dissect model errors specifically on promo weeks (is_promo=1) and event windows (Super Bowl, Christmas, etc.); which family handles spikes best and why; quantify the GBM fold-1 event under-forecast flagged in Phase 9; realized price elasticity by category.
+
+## Deferred / decided
+- [x] Deep-model point functional: mean vs median verified in Phase 13 (median→WAPE, mean→WRMSSE). Deep models' stored forecasts use median; note this is a functional choice, not a model limitation.
+- [ ] Held-out d1942–1969 single-touch final evaluation → do at Phase 18 (final report) after all model choices are frozen.
+- [ ] Per-quantile Tweedie LightGBM (probabilistic GBM) → optional extension
 
 ## Deferred to later phases
 - [ ] Exercise `predict_quantiles` for LightGBM (per-quantile objectives) → Phase 13

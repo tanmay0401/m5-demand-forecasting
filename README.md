@@ -27,7 +27,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 10 | DeepAR-style Model | ✅ [docs/phases/PHASE_10_deepar.md](docs/phases/PHASE_10_deepar.md) |
 | 11 | Temporal Transformer | ✅ [docs/phases/PHASE_11_temporal_transformer.md](docs/phases/PHASE_11_temporal_transformer.md) |
 | 12 | Hierarchical Reconciliation | ✅ [docs/phases/PHASE_12_reconciliation.md](docs/phases/PHASE_12_reconciliation.md) |
-| 13 | Evaluation (WRMSSE, Quantile Loss) | ⏳ |
+| 13 | Evaluation (WRMSSE, Quantile Loss) | ✅ [docs/phases/PHASE_13_evaluation.md](docs/phases/PHASE_13_evaluation.md) |
 | 14 | Promotions & Events Analysis | ⏳ |
 | 15 | Error Analysis | ⏳ |
 | 16 | Research Analysis | ⏳ |
@@ -44,6 +44,14 @@ And the project's namesake phenomenon — inferred promotions (price < 85% of an
 ![Promo example](reports/figures/08_promo_example.png)
 
 More in the [EDA report](docs/phases/PHASE_06_eda.md): +37% weekend lift, per-state SNAP effects, the 73%-zeros median series, and why every one of these findings changed the modeling plan.
+
+## Headline result
+
+On the official **WRMSSE** metric (scaled, dollar-weighted, all 12 levels), gradient boosting wins — reproducing the real M5 outcome:
+
+![WRMSSE comparison](reports/figures/13_wrmsse.png)
+
+The twist: on **WAPE** the ranking *reverses* and the deep models win. Same forecasts, opposite verdicts — because the metric encodes the business objective, and the point statistic you report (mean vs median) must match it. Switching DeepAR's point forecast from median to mean cut its WRMSSE 2.8× (1.88 → 0.68). The full story is in the [evaluation report](docs/phases/PHASE_13_evaluation.md).
 
 ## Repository layout
 

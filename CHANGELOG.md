@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.0] — 2026-07-22 — Phase 13
+### Added
+- `evaluation/wrmsse.py` (official M5 WRMSSE), pinball loss + quantile report in `metrics.py`.
+- `scripts/evaluate.py` (final model comparison), `scripts/exp_deepar_mean.py` (mean-vs-median functional experiment).
+- WRMSSE figure (13); DeepAR `mean_forecast_`; 7 metric tests; Phase 13 doc.
+### Result
+- LightGBM wins WRMSSE (0.555); WAPE ranking reversed; median→mean point functional cuts DeepAR WRMSSE 2.8×.
+
 ## [0.12.0] — 2026-07-22 — Phase 12
 ### Added
 - Hierarchy package (`hierarchy/`): 12-level M5 summing matrix, bottom-up / top-down / MinT reconciliation, coherence check.

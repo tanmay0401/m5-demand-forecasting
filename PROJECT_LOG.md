@@ -2,6 +2,14 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 13: WRMSSE + quantile loss (the capstone metric)
+
+- Implemented official M5 **WRMSSE** (`evaluation/wrmsse.py`): RMSSE (naive-scaled from first sale, streamed per level) × revenue weights (per-level normalized, 1/12 each level); scores any bottom forecast bottom-up over all 12 levels. Plus pinball loss + coverage in `metrics.py`. 7 tests.
+- **Final comparison (WRMSSE, d1886–1913):** lightgbm **0.555** (wins, ~ real M5), xgboost 0.571, moving_avg_28 1.097, deepar 1.414, tft 1.492. **Complete reversal of the WAPE ranking** (where deep models won 0.66 vs GBM 0.75).
+- **Mechanism nailed by per-level breakdown:** deep models match LightGBM at the bottom (RMSSE 0.86) but explode at aggregates (total 1.66 vs 0.27). *Bottom-up cancels random noise but accumulates systematic bias* — the median under-forecast, summed over 30,490 series, craters the money-weighted aggregate levels. This is the flip side of Phase 12's bottom-up win.
+- **Verified the fix (controlled experiment, same trained DeepAR):** median→mean point forecast cut WRMSSE **1.88 → 0.68** (2.8×) and bias −0.43 → +0.03, while WAPE worsened 0.67 → 0.76. The point statistic must match the metric: median for absolute-error, mean for squared/weighted/aggregated. Added `mean_forecast_` to DeepAR.
+- **Pinball:** deepar 0.297 < tft 0.302 — the probabilistic metric the deep models were built for; calibrated monotone quantiles the GBMs don't natively give.
+
 ## 2026-07-22 — Phase 12: hierarchical reconciliation (12 levels)
 
 - Built the 12-level M5 hierarchy (42,840 series) as a sparse summing matrix S; BU / TD / MinT(diag, shrink) with coherence check. Tests cover exact M5 cardinalities and the MinT→BU reduction.
