@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0] — 2026-07-22 — Phase 11
+### Added
+- TFT-style temporal transformer (`models/tft/`): GRN blocks, input routing, LSTM encoder-decoder, interpretable attention, direct multi-quantile head (pinball loss); attention persisted per fold.
+- Attention-over-history figure (11); 6 TFT tests (45 total); Phase 11 teaching doc.
+### Notes
+- Third and final model family. All three (GBM / DeepAR / TFT) now comparable on the same fold.
+
 ## [0.10.0] — 2026-07-22 — Phase 10
 ### Added
 - DeepAR-style probabilistic forecaster (`models/deepar/`): windowed dataset with per-series scaling, LSTM + Negative Binomial network, ancestral-sampling prediction with quantile output.

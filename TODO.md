@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 11 — TFT-style temporal transformer**: teach attention/positional encoding/TFT input routing; implement static/known/observed routing + LSTM local encoder + interpretable multi-head attention + direct multi-quantile head (pinball loss); GPU training; attention-weight visualization.
+- [ ] **Phase 12 — Hierarchical reconciliation**: build the 12-level M5 hierarchy as a summing matrix S; teach bottom-up / top-down / middle-out / MinT; reconcile the stored base forecasts across all levels; measure WRMSSE delta before/after; visualize coherence. (This is a resume-claim centerpiece: "reconciliation across 12 aggregation levels".)
 
 ## Deferred to later phases
 - [ ] Exercise `predict_quantiles` for LightGBM (per-quantile objectives) → Phase 13

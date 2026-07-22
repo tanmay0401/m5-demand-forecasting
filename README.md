@@ -25,7 +25,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 8 | Baselines | ✅ [docs/phases/PHASE_08_baselines.md](docs/phases/PHASE_08_baselines.md) |
 | 9 | Gradient Boosting | ✅ [docs/phases/PHASE_09_gradient_boosting.md](docs/phases/PHASE_09_gradient_boosting.md) |
 | 10 | DeepAR-style Model | ✅ [docs/phases/PHASE_10_deepar.md](docs/phases/PHASE_10_deepar.md) |
-| 11 | Temporal Transformer | ⏳ |
+| 11 | Temporal Transformer | ✅ [docs/phases/PHASE_11_temporal_transformer.md](docs/phases/PHASE_11_temporal_transformer.md) |
 | 12 | Hierarchical Reconciliation | ⏳ |
 | 13 | Evaluation (WRMSSE, Quantile Loss) | ⏳ |
 | 14 | Promotions & Events Analysis | ⏳ |

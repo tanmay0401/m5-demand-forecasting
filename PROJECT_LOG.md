@@ -2,6 +2,14 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 11: TFT-style temporal transformer
+
+- Implemented from scratch (`models/tft/network.py` + `model.py`, ~180 lines): GRN blocks, static-context conditioning, observed/known input routing (decoder physically can't see sales → structural leakage prevention), LSTM encoder-decoder, head-averaged interpretable attention with per-call causal mask, direct multi-quantile head on pinball loss. Reuses DeepAR's dataset unchanged.
+- Documented simplifications vs full TFT: VSNs → projected input blocks; interpretable attention → head-averaged standard attention. Honest, not hidden.
+- **Bug caught by tests**: attention mask was hard-coded to horizon=28 but predict can use a shorter horizon (test used 20) → built the causal mask per forward pass from actual sizes.
+- **Results (test d1886–1913):** TFT MAE 0.928 / RMSE 2.145 / WAPE 0.670 / bias −0.338 — a statistical tie with DeepAR (0.664), same profile (median-optimal WAPE, big negative bias). TFT's edge is operational: single-pass inference ~100× faster than DeepAR's sampling; plus readable attention.
+- **Attention finding (honest negative result, fig 11):** predicted weekly spikes (lag 7/14/21); got a recency ramp + mild ~7-day sawtooth instead. Cause: `dow` is an explicit decoder covariate, so the model reads weekly seasonality from that easy channel and spends attention on recent level. Same lesson as Phase 9's dow-importance trap, from the attention side. 45 tests green.
+
 ## 2026-07-22 — Phase 10: DeepAR-style probabilistic model
 
 - Implemented DeepAR from scratch in PyTorch across three modules (`deepar/dataset.py`, `network.py`, `model.py`) — the learning goal vs calling GluonTS.
