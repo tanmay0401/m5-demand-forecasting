@@ -18,6 +18,7 @@ the backtest artifacts used by the analysis phases are not clobbered.
 from __future__ import annotations
 
 import json
+import sys
 
 import numpy as np
 import pandas as pd
@@ -42,6 +43,10 @@ QUANTILES = [0.05, 0.165, 0.25, 0.5, 0.75, 0.835, 0.95]
 
 
 def main():
+    # optional CLI: run only the named models (one-per-process avoids OOM when
+    # the full-history scale grid + feature table + a model coexist in RAM),
+    # appending to any existing final_eval.json
+    only = sys.argv[1:] or GROUPS
     base_cfg = load_config()
     panel = pd.read_parquet(REPO_ROOT / base_cfg.paths.interim / "panel.parquet",
                             columns=ID_COLS + ["d", "sales", "sell_price"])
@@ -65,8 +70,10 @@ def main():
     out_dir = REPO_ROOT / base_cfg.paths.outputs / "forecasts_heldout"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    results = {"window": "d1914-d1941 (held-out, single touch)", "models": {}}
-    for group in GROUPS:
+    eval_path = REPO_ROOT / base_cfg.paths.outputs / "final_eval.json"
+    results = json.loads(eval_path.read_text()) if eval_path.exists() else \
+        {"window": "d1914-d1941 (held-out, single touch)", "models": {}}
+    for group in only:
         cfg = load_config([f"model={group}"] if group not in ("moving_avg_28",) else ["model=baselines"])
         set_seed(cfg.seed)
 
@@ -95,7 +102,7 @@ def main():
         log.info("%-14s held-out WRMSSE=%.4f%s", group, score,
                  f"  pinball={entry['mean_pinball']}" if "mean_pinball" in entry else "")
 
-    (REPO_ROOT / base_cfg.paths.outputs / "final_eval.json").write_text(json.dumps(results, indent=2))
+    eval_path.write_text(json.dumps(results, indent=2))
     print("\n=== HELD-OUT (d1914-1941), single touch ===")
     for g, e in sorted(results["models"].items(), key=lambda kv: kv[1]["wrmsse"]):
         print(f"  {g:14s} WRMSSE={e['wrmsse']:.4f}")
