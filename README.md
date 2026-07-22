@@ -9,9 +9,17 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 - Implements **hierarchical forecast reconciliation** producing coherent forecasts across the **12 M5 aggregation levels** (total → state → store → category → department → item → item-store)
 - Evaluates with **WRMSSE** and **quantile (pinball) loss**, optimizing probabilistic forecasts for daily inventory decisions
 
+## Start here
+
+- 📊 **[Technical Report](docs/TECHNICAL_REPORT.md)** — problem, method, headline results, findings, limitations
+- 🎤 **[Interview Prep](docs/INTERVIEW_PREP.md)** — explanations at every altitude + the questions and answers
+- 🧭 Per-phase deep-dives (theory → code → results → interview Q&A) in [docs/phases/](docs/phases/)
+
+**Headline:** on the official WRMSSE metric, **LightGBM wins (0.555)** — reproducing the real M5 outcome — but the ranking *reverses* on WAPE, where the deep models win. The metric decides the winner, and the point statistic (mean vs median) must match it.
+
 ## Status
 
-🚧 In development — phase by phase. See [TODO.md](TODO.md) for the roadmap and [PROJECT_LOG.md](PROJECT_LOG.md) for the running log.
+Phases 1–17 complete; final documentation in progress. [TODO.md](TODO.md) · [PROJECT_LOG.md](PROJECT_LOG.md)
 
 | Phase | Topic | Status |
 |---|---|---|
