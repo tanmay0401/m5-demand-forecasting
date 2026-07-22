@@ -24,7 +24,7 @@ Hierarchical time series forecasting at retail scale, built on the **M5 Forecast
 | 7 | Feature Engineering | ✅ [docs/phases/PHASE_07_feature_engineering.md](docs/phases/PHASE_07_feature_engineering.md) |
 | 8 | Baselines | ✅ [docs/phases/PHASE_08_baselines.md](docs/phases/PHASE_08_baselines.md) |
 | 9 | Gradient Boosting | ✅ [docs/phases/PHASE_09_gradient_boosting.md](docs/phases/PHASE_09_gradient_boosting.md) |
-| 10 | DeepAR-style Model | ⏳ |
+| 10 | DeepAR-style Model | ✅ [docs/phases/PHASE_10_deepar.md](docs/phases/PHASE_10_deepar.md) |
 | 11 | Temporal Transformer | ⏳ |
 | 12 | Hierarchical Reconciliation | ⏳ |
 | 13 | Evaluation (WRMSSE, Quantile Loss) | ⏳ |

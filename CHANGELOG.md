@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.10.0] — 2026-07-22 — Phase 10
+### Added
+- DeepAR-style probabilistic forecaster (`models/deepar/`): windowed dataset with per-series scaling, LSTM + Negative Binomial network, ancestral-sampling prediction with quantile output.
+- torch 2.13 (CUDA) to the environment; deep models train on GPU (RTX 4050).
+- 5 DeepAR tests (39 total); Phase 10 teaching doc.
+### Changed
+- `scripts/train.py`: column-subset feature loading for deepar; per-fold quantile persistence.
+- `models/factory.py`: deepar wired into the build/lookback registry.
+
 ## [0.9.0] — 2026-07-21 — Phase 9
 ### Added
 - `models/gbm.py`: LightGBM + XGBoost forecasters (tweedie, direct multi-step, native categoricals, per-fold gain importances); `models/factory.py`; `configs/model/xgboost.yaml`; 3 tests.

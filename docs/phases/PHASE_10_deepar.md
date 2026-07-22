@@ -47,7 +47,28 @@ Leakage guards: training windows can't end past the fold cutoff (asserted in tes
 
 ## 5. Results
 
-<!-- RESULTS -->
+**Point forecast, identical test window d1886–1913** (DeepAR ran fold 3 only for compute honesty; the GBM/MA numbers are that same fold, not their 3-fold means, so this is apples-to-apples):
+
+| model | MAE | RMSE | WAPE | bias |
+|---|---|---|---|---|
+| **deepar** | **0.9210** | 2.1336 | **0.6643** | **−0.318** |
+| xgboost | 1.0418 | **2.1234** | 0.7514 | −0.031 |
+| lightgbm | 1.0427 | 2.1295 | 0.7521 | −0.031 |
+| moving_avg_28 (bar) | 1.0411 | 2.2186 | 0.7509 | −0.009 |
+
+DeepAR trained in **~2 min on the RTX 4050** (20 epochs, NLL 2.06 → 1.85), sampled 200 paths × 30,490 series in ~2 min.
+
+### The honest reading — this is a two-faced result
+
+1. **DeepAR wins WAPE by ~12%** (0.664 vs 0.75) and MAE outright — the **first model to beat the moving-average bar decisively**. Why: its point forecast is the per-day sample **median**, and on 68%-zeros data the median is the absolute-error-optimal predictor. It nails the quiet body of the distribution that dominates WAPE.
+2. **…but its bias is −0.318**, 10× any other model's. The median of a right-skewed count distribution sits *below* the mean, so summing medians **systematically under-forecasts total volume** — deploy this as your order quantity and you stock out on every spike. RMSE (which the mean minimizes) merely ties the GBMs: DeepAR's median gives up the tail that RMSE and WRMSSE care about.
+3. **The metric and the decision disagree**, exactly the Phase 8 theme escalated: WAPE crowns DeepAR, bias and RMSE say "not so fast." There is no single "best" — there is best-*for-a-loss*. This is precisely why the project ends on WRMSSE + quantile loss (Phase 13) rather than any one point metric.
+
+### Calibration
+
+![DeepAR reliability](../../reports/figures/10_deepar_calibration.png)
+
+Quantiles come out **monotone-ordered** (q05 ≤ … ≤ q95 everywhere — a basic sanity check many implementations fail). Calibration is imperfect and instructively so: every empirical coverage sits *above* the diagonal. The low-quantile over-coverage (nominal 5% → empirical 57%) is a **discreteness artifact**, not a bug: for a mostly-zero series the predicted 5th percentile is 0, and `P(actual ≤ 0) = P(actual = 0)` is large — zero-inflation inflates low-quantile coverage mechanically. The upper tail is closer (nominal 95% → 97%). The honest summary: sharp, correctly-ordered intervals that are slightly wide/shifted — good enough to be useful, imperfect enough to motivate the pinball-loss optimization in Phase 13.
 
 ## 6. Interview questions — Phase 10
 

@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 10 — DeepAR-style model**: install torch (verify py3.14 wheels first!); teach RNN/LSTM/likelihood forecasting; implement dataset windowing + LSTM + NegBin head + per-series scaling + ancestral sampling; backtest (deep models may run fewer folds for compute honesty — document).
+- [ ] **Phase 11 — TFT-style temporal transformer**: teach attention/positional encoding/TFT input routing; implement static/known/observed routing + LSTM local encoder + interpretable multi-head attention + direct multi-quantile head (pinball loss); GPU training; attention-weight visualization.
 
 ## Deferred to later phases
 - [ ] Exercise `predict_quantiles` for LightGBM (per-quantile objectives) → Phase 13

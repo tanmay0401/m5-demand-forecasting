@@ -2,6 +2,19 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 10: DeepAR-style probabilistic model
+
+- Implemented DeepAR from scratch in PyTorch across three modules (`deepar/dataset.py`, `network.py`, `model.py`) — the learning goal vs calling GluonTS.
+  - **Network**: item(16)/dept(4)/store(4) embeddings + 2-layer LSTM + Negative Binomial head. Parametrization `r=1/alpha, logits=log(mu*alpha)`; unit-tested that `dist.mean == mu*nu`.
+  - **Scale handling** (paper 3.3): inputs / nu, head restores (mu*nu, alpha/sqrt(nu)); windows sampled proportional to series volume.
+  - **Prediction = ancestral sampling**: 200 paths x 28 days, feed each sampled draw back as next input → uncertainty compounds honestly; point forecast = per-day sample median; 7 quantiles persisted per fold for Phase 13.
+  - Leakage guards: window starts constrained below fold cutoff (tested); post-cutoff sales zeroed in dense arrays at fit time.
+- **Hardware**: laptop has RTX 4050 (6GB, CUDA 13.1). torch 2.13.0+cu126 wheels exist for py3.14 — installed, `cuda.is_available()==True`. Deep models train on GPU.
+- **Test note**: first `test_training_reduces_loss` compared epoch-total NLL across epochs and failed — the tiny synthetic net converges within the first epoch's 8 steps, so epoch 1 total already ≈ epoch 4 total. Fixed to compare a fixed eval-batch NLL before-vs-after training (untrained vs trained), which is the property actually meant. 39 tests green.
+- Deep-model compute honesty: running **fold 3 only** (latest fold, aligns with GBM's best fold) rather than all 3 — documented, not hidden.
+- **Results (test d1886–1913, same window as GBM fold 3):** DeepAR MAE 0.921 / RMSE 2.134 / WAPE **0.664** / bias **−0.318**. First model to beat the MA bar (0.751 WAPE) decisively — but the −0.318 bias is the flip side: the sample-median point forecast under-shoots the right-skewed mean, so it would stock out on spikes. RMSE only ties the GBMs. Metric-vs-decision tension escalated; final verdict → WRMSSE + pinball (Phase 13).
+- **Calibration** (fig 10): quantiles monotone-ordered; every empirical coverage above nominal. Low-quantile over-coverage (5%→57%) is a zero-inflation discreteness artifact (predicted q05=0, and P(y≤0)=P(y=0) is large), not a bug. Trained ~2 min on GPU; NLL 2.06→1.85 over 20 epochs.
+
 ## 2026-07-21 — Phase 9: gradient boosting (LightGBM + XGBoost)
 
 - Built `models/gbm.py` (both libraries behind the Phase 8 interface, mirrored recipes), `models/factory.py`, extended `scripts/train.py`. 34 tests green. xgboost had been missing from the env (added).
