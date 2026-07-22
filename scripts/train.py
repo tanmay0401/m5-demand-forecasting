@@ -14,6 +14,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from m5forecast.evaluation.backtest import expanding_folds
@@ -69,7 +70,7 @@ def main(overrides: list[str]) -> None:
     features = None
     if lookback is not None:
         min_day = max(folds[0].train_end - lookback, 1)
-        columns = DEEPAR_COLS if cfg.model.name == "deepar" else None
+        columns = DEEPAR_COLS if cfg.model.name in ("deepar", "tft") else None
         log.info("loading feature table from d=%d (columns=%s)", min_day, "subset" if columns else "all")
         features = load_feature_table(cfg, min_day, columns)
 
@@ -91,6 +92,8 @@ def main(overrides: list[str]) -> None:
                 model.importance_.to_csv(out / f"importance_fold{fold.fold_id}.csv", index=False)
             if hasattr(model, "quantiles_"):
                 model.quantiles_.to_parquet(out / f"quantiles_fold{fold.fold_id}.parquet", index=False)
+            if hasattr(model, "attention_"):
+                np.save(out / f"attention_fold{fold.fold_id}.npy", model.attention_)
 
             m = evaluate_point(preds, actuals)
             results.append({"model": name, "fold": fold.fold_id, **m})

@@ -25,6 +25,10 @@ def build_runs(model_cfg) -> list[tuple[str, Callable[[], ForecastModel]]]:
         from m5forecast.models.deepar.model import DeepARForecaster
 
         return [("deepar", lambda: DeepARForecaster(model_cfg))]
+    if model_cfg.name == "tft":
+        from m5forecast.models.tft.model import TFTForecaster
+
+        return [("tft", lambda: TFTForecaster(model_cfg))]
     raise KeyError(f"unknown model group '{model_cfg.name}'")
 
 
@@ -33,8 +37,8 @@ def feature_lookback_days(model_cfg) -> int | None:
     None = no feature table needed at all."""
     if model_cfg.name == "baselines":
         return 200 if "linear_reg" in model_cfg.members else None
-    if model_cfg.name == "deepar":
-        # needs full history for its dense arrays (context windows sample
+    if model_cfg.name in ("deepar", "tft"):
+        # deep models need full history for their dense arrays (windows sample
         # anywhere in the training region) — signal "everything"
         return 10_000
     return int(model_cfg.train_days) + 10
