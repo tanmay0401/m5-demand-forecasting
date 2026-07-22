@@ -25,3 +25,30 @@ def evaluate_point(preds: pd.DataFrame, actuals: pd.DataFrame) -> dict[str, floa
         "bias": float(err.mean()),  # + = over-forecast (overstock), - = under (stockouts)
         "n": int(len(j)),
     }
+
+
+def pinball_loss(actual: np.ndarray, pred_q: np.ndarray, q: float) -> float:
+    """Pinball (quantile) loss for one quantile level q.
+
+    PL_q = mean over points of  max( q*(y - yhat_q), (q-1)*(y - yhat_q) ).
+    Asymmetric: under-predicting a high quantile is cheap, over-predicting it
+    is expensive — which is exactly how inventory service levels behave.
+    """
+    e = actual - pred_q
+    return float(np.maximum(q * e, (q - 1) * e).mean())
+
+
+def quantile_report(actual: np.ndarray, quantile_preds: dict[float, np.ndarray]) -> dict:
+    """Per-quantile pinball + empirical coverage, plus the mean pinball.
+
+    quantile_preds: {level -> [n] predicted quantile}. actual: [n].
+    Coverage = fraction of actuals <= the predicted quantile (nominal ~ level).
+    """
+    per_q = {}
+    for level, pred in sorted(quantile_preds.items()):
+        per_q[level] = {
+            "pinball": pinball_loss(actual, pred, level),
+            "coverage": float((actual <= pred).mean()),
+        }
+    mean_pinball = float(np.mean([v["pinball"] for v in per_q.values()]))
+    return {"mean_pinball": mean_pinball, "per_quantile": per_q}
