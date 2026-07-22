@@ -1,7 +1,7 @@
 # TODO / Roadmap
 
 ## Next up
-- [ ] **Phase 12 — Hierarchical reconciliation**: build the 12-level M5 hierarchy as a summing matrix S; teach bottom-up / top-down / middle-out / MinT; reconcile the stored base forecasts across all levels; measure WRMSSE delta before/after; visualize coherence. (This is a resume-claim centerpiece: "reconciliation across 12 aggregation levels".)
+- [ ] **Phase 13 — Evaluation (WRMSSE + quantile loss)**: implement the official M5 WRMSSE (scaled + dollar-weighted over all 12 levels); pinball/quantile loss + coverage/calibration on the deep models' stored quantiles; final model comparison table across all families + reconciliation; THIS is where the GBM-vs-deep verdict gets settled. Then touch the reserved d1942–1969 evaluation block exactly once.
 
 ## Deferred to later phases
 - [ ] Exercise `predict_quantiles` for LightGBM (per-quantile objectives) → Phase 13

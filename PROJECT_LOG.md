@@ -2,6 +2,13 @@
 
 Running engineering/learning log. Newest entries at the top.
 
+## 2026-07-22 — Phase 12: hierarchical reconciliation (12 levels)
+
+- Built the 12-level M5 hierarchy (42,840 series) as a sparse summing matrix S; BU / TD / MinT(diag, shrink) with coherence check. Tests cover exact M5 cardinalities and the MinT→BU reduction.
+- **Bug caught by inspecting coherence numbers** (not by a test — the tests passed because their ids sorted the same as their keys): leaf-level S rows were key-sorted while columns are id-sorted → bottom block was a permutation, not identity → scrambled bottom indexing / coherence / BU. Fixed to force leaf identity in column order; added a regression test with ids that sort differently from keys. *Lesson: a passing test on a symmetric fixture proves nothing about the asymmetric case.*
+- **Base design**: LightGBM fold-3 at the bottom + independent mean-28 at aggregates (genuinely incoherent; median base was rejected because median-of-zeros=0 collapses bottom-up — itself a documented insight).
+- **Results (d1886–1913):** coherence base 12,433 → BU/TD exactly 0. Avg WAPE over 12 levels: base 0.247 → **BU 0.174**, TD 0.247 (no help). Total-level WAPE base 0.141 → **BU 0.029** (~5×): "noise cancels under aggregation" made quantitative. Upper-9 exact MinT: BU 0.059 best; MinT 0.114 beats base/TD but not BU because our variance-based diagonal W is misspecified (doesn't know the LightGBM leaves beat the mean-28 aggregates) — MinT≥BU holds only with true W. Honest, sophisticated result.
+
 ## 2026-07-22 — Phase 11: TFT-style temporal transformer
 
 - Implemented from scratch (`models/tft/network.py` + `model.py`, ~180 lines): GRN blocks, static-context conditioning, observed/known input routing (decoder physically can't see sales → structural leakage prevention), LSTM encoder-decoder, head-averaged interpretable attention with per-call causal mask, direct multi-quantile head on pinball loss. Reuses DeepAR's dataset unchanged.

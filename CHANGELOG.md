@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.12.0] — 2026-07-22 — Phase 12
+### Added
+- Hierarchy package (`hierarchy/`): 12-level M5 summing matrix, bottom-up / top-down / MinT reconciliation, coherence check.
+- `scripts/reconcile.py` experiment (LightGBM base + mean-28 aggregates); reconciliation figure (12); 7 hierarchy tests.
+- Phase 12 teaching doc with per-level results.
+### Fixed
+- Leaf-level row/column misalignment in the summing matrix (bottom block must be identity in column order).
+
 ## [0.11.0] — 2026-07-22 — Phase 11
 ### Added
 - TFT-style temporal transformer (`models/tft/`): GRN blocks, input routing, LSTM encoder-decoder, interpretable attention, direct multi-quantile head (pinball loss); attention persisted per fold.

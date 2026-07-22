@@ -1,15 +1,18 @@
 """Phase 12 experiment: reconcile forecasts across the 12 M5 levels.
 
-Design:
-  * Base forecasts at EVERY node = per-node MEDIAN of the last 56 days,
-    held flat over the 28-day horizon. The median is NON-linear, so these
-    base forecasts are genuinely INCOHERENT across levels (a linear base
-    like the mean or seasonal-naive would already be coherent and leave
-    nothing to reconcile — a subtle, important point).
-  * Full 12-level hierarchy: apply bottom-up and top-down (both scale to
-    30,490 leaves), measure WAPE per level and coherence.
-  * Upper 9-level hierarchy (store x department leaves, 70 series): the
-    place exact MinT is computable — compare base / BU / TD / MinT there.
+Design (faithful, and tied to our models):
+  * Bottom base = our stored LightGBM fold-3 forecasts (Tweedie -> mean-like,
+    the right thing to bottom-up). Aggregate-node base = independent mean of
+    each node's last 28 days. These disagree (LightGBM summed != mean-28 of
+    the aggregates), so the base is genuinely INCOHERENT — the setup a real
+    system faces when different levels are forecast by different models.
+    (A purely linear base at every level would already be coherent and leave
+    nothing to reconcile — a subtle, important point. And a MEDIAN base makes
+    bottom-up collapse, because the median of a 73%-zeros series is 0; that is
+    itself why bottom-up needs mean-like bottom forecasts.)
+  * Full 12-level hierarchy: bottom-up and top-down (both scale to 30,490).
+  * Upper 9-level hierarchy (store x department leaves, 70 series): the place
+    exact MinT is computable — compare base / BU / TD / MinT there.
 
 Writes reports/figures/12_reconciliation.png and outputs/reconciliation.json.
 Uses the window d1886-1913 (same as the model fold-3 comparison).
@@ -62,18 +65,21 @@ def main() -> None:
         wide = sub.pivot_table(index="id", columns="d", values="sales", fill_value=0)
         return wide.reindex(h.bottom_ids).to_numpy(dtype="float64")
 
-    med_hist = pivot(range(TRAIN_END - MED_WINDOW + 1, TRAIN_END + 1))     # [30490, 56]
+    hist28 = pivot(range(TRAIN_END - 27, TRAIN_END + 1))                   # [30490, 28]
     actual_bottom = pivot(range(TRAIN_END + 1, TRAIN_END + HORIZON + 1))   # [30490, 28]
-
-    # base forecasts at every node: median of that node's own last 56 days, flat
-    node_hist = h.S @ med_hist                                   # [n_nodes, 56]
-    base_all = np.repeat(np.median(node_hist, axis=1)[:, None], HORIZON, axis=1)
+    node_hist = h.S @ hist28                                               # [n_nodes, 28]
     actual_all = h.S @ actual_bottom
+
+    # aggregate-node base = independent mean-28; bottom base = LightGBM fold-3
+    base_all = np.repeat(node_hist.mean(axis=1)[:, None], HORIZON, axis=1)
+    lgbm = pd.read_parquet(REPO_ROOT / cfg.paths.outputs / "forecasts" / "lightgbm" / "fold3.parquet")
+    lgbm_wide = lgbm.pivot_table(index="id", columns="d", values="yhat", fill_value=0)
+    base_all[h.bottom_slice] = lgbm_wide.reindex(h.bottom_ids).to_numpy(dtype="float64")
 
     base_coh = coherence_error(base_all, h)
     log.info("base coherence error (should be > 0): %.3f", base_coh)
 
-    props = historical_proportions(med_hist)
+    props = historical_proportions(hist28)
     rec_bu = bottom_up(base_all, h)
     rec_td = top_down(base_all, h, props)
 
@@ -98,18 +104,20 @@ def main() -> None:
     red = red[["id", "cat_id", "dept_id", "store_id", "state_id"]].drop_duplicates("id")
     hR = build_hierarchy(red, UPPER_LEVELS)
 
-    # aggregate bottom -> store_dept leaves via the full hierarchy, keep leaf order
+    # map full-hierarchy store_dept rows into hR's leaf ordering
     sd_slice = h.level_slices["store_department"]
     sd_keys = h.nodes.iloc[sd_slice]["key"].to_numpy()          # "store|dept"
     order = {k: i for i, k in enumerate(hR.bottom_ids)}
     perm = np.array([order[k] for k in sd_keys])
-    leaf_hist = np.zeros_like(node_hist[sd_slice]); leaf_hist[perm] = node_hist[sd_slice]
-    leaf_actual = np.zeros_like(actual_all[sd_slice]); leaf_actual[perm] = actual_all[sd_slice]
+    leaf_hist = np.zeros((len(perm), HORIZON)); leaf_hist[perm] = node_hist[sd_slice]
+    leaf_lgbm = np.zeros((len(perm), HORIZON)); leaf_lgbm[perm] = rec_bu[sd_slice]  # LightGBM summed
+    leaf_actual = np.zeros((len(perm), HORIZON)); leaf_actual[perm] = actual_all[sd_slice]
 
-    nodeR_hist = hR.S @ leaf_hist
-    baseR = np.repeat(np.median(nodeR_hist, axis=1)[:, None], HORIZON, axis=1)
+    nodeR_hist = hR.S @ leaf_hist                              # coherent aggregate history
+    baseR = np.repeat(nodeR_hist.mean(axis=1)[:, None], HORIZON, axis=1)  # aggregate nodes: mean-28
+    baseR[hR.bottom_slice] = leaf_lgbm                         # leaves: LightGBM (incoherent base)
     actualR = hR.S @ leaf_actual
-    residR = nodeR_hist - np.median(nodeR_hist, axis=1, keepdims=True)      # in-sample base resid
+    residR = nodeR_hist - nodeR_hist.mean(axis=1, keepdims=True)
     w_diag = residR.var(axis=1) + 1e-6
 
     recR = {
